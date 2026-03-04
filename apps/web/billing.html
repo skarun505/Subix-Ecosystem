@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Billing: Invoice OS - Subix</title>
+    <meta name="description"
+        content="Subix Billing: Automate recurring invoices, tax compliance, and payment reconciliations. Get paid faster.">
+    <link rel="canonical" href="https://subix.in/billing">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="Subix PNG.png">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="Subix PNG.png" alt="Subix Logo">
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="products">Products</a></li>
+            <li><a href="services">The Stack</a></li>
+            <li><a href="platform">LeadOS</a></li>
+            <li><a href="about">Manifesto</a></li>
+            <li><a href="careers">Join Us</a></li>
+        </ul>
+        <!-- Right slot: Sign In CTA (replaced by profile widget when logged in) -->
+        <div class="nav-cta-slot">
+            <a href="login" class="cta-btn">Sign In</a>
+        </div>
+        <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+    <div class="nav-links mobile-menu" id="mobileMenu"></div>
+
+    <header class="hero" style="min-height: 80vh; padding-bottom: 2rem; padding-top: 10rem;">
+        <div class="container" style="text-align: center;">
+            <div class="hero-tag"><span>●</span> FIN-OPS</div>
+            <h1>Subix <span class="highlight">Billing</span></h1>
+            <h2 style="font-size: 2rem; margin-bottom: 1.5rem; opacity: 0.9;">Invoices That Pay Themselves.</h2>
+            <p style="margin: 0 auto; max-width: 800px; font-size: 1.2rem;">
+                Set it and forget it. Automated recurring billing, payment reminders, and GST/VAT compliance.
+                Stop manually creating PDFs.
+            </p>
+
+            <div class="dashboard-mockup reveal-zoom"
+                style="margin-top: 4rem; overflow: hidden; border-radius: 16px; border: 1px solid #333; position: relative; background: #0f0f0f;">
+                <div
+                    style="padding: 1rem; border-bottom: 1px solid #222; display: flex; gap: 1rem; background: #161616;">
+                    <div style="width: 12px; height: 12px; background: #fe5f57; border-radius: 50%;"></div>
+                    <div style="width: 12px; height: 12px; background: #febc2e; border-radius: 50%;"></div>
+                    <div style="width: 12px; height: 12px; background: #28c840; border-radius: 50%;"></div>
+                    <span style="font-size: 0.7rem; color: #444; margin-left: auto;">billing.subix.in</span>
+                </div>
+                <div class="mockup-content"
+                    style="padding: 2rem; display: grid; grid-template-columns: 200px 1fr; gap: 2rem; min-height: 450px; text-align: left;">
+                    <div class="sidebar" style="background: #111; border-radius: 8px; padding: 1rem;">
+                        <div
+                            style="height: 20px; width: 80%; background: #222; border-radius: 4px; margin-bottom: 2rem; border-left: 2px solid var(--accent-cyan);">
+                        </div>
+                        <div
+                            style="height: 10px; width: 100%; background: #1a1a1a; border-radius: 4px; margin-bottom: 1rem;">
+                        </div>
+                        <div
+                            style="height: 10px; width: 100%; background: #1a1a1a; border-radius: 4px; margin-bottom: 1rem;">
+                        </div>
+                        <div style="margin-top: auto; height: 30px; background: #222; border-radius: 4px;"></div>
+                    </div>
+                    <div class="main-view">
+                        <div class="stats-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                            <div
+                                style="background: #1a1a1a; border-radius: 8px; padding: 1.5rem; border: 1px solid #333;">
+                                <div style="font-size: 0.8rem; color: #666; text-transform: uppercase;">Outstanding
+                                </div>
+                                <div style="font-size: 2rem; font-weight: bold; color: #fff;">₹1.4L</div>
+                            </div>
+                            <div
+                                style="background: #1a1a1a; border-radius: 8px; padding: 1.5rem; border: 1px solid #333;">
+                                <div style="font-size: 0.8rem; color: #666; text-transform: uppercase;">Paid This Month
+                                </div>
+                                <div style="font-size: 2rem; font-weight: bold; color: var(--accent-cyan);">₹8.5L</div>
+                            </div>
+                            <div
+                                style="background: #1a1a1a; border-radius: 8px; padding: 1.5rem; border: 1px solid #333;">
+                                <div style="font-size: 0.8rem; color: #666; text-transform: uppercase;">Overdue
+                                </div>
+                                <div style="font-size: 2rem; font-weight: bold; color: #ff4444;">₹12k</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="intro" style="background: #080808; border-top: 1px solid #111;">
+        <div class="container" style="max-width: 900px; text-align: center;">
+            <h2 style="margin-bottom: 2rem;">Cashflow on <span class="highlight">Autopilot</span></h2>
+            <p style="font-size: 1.3rem; line-height: 1.8; color: #eee;">
+                Manually chasing invoices is a waste of human potential. Subix Billing connects directly to your bank
+                and CRM
+                to auto-generate invoices, chase payments, and reconcile accounts.
+            </p>
+        </div>
+    </section>
+
+    <section class="features" style="padding: 10rem 0;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 5rem;">Core <span class="highlight">Capabilities</span></h2>
+            <div class="grid-2" style="gap: 2rem;">
+                <div class="card reveal-left">
+                    <i class="fas fa-sync card-icon"></i>
+                    <h3>Recurring Engine</h3>
+                    <p>Perfect for SaaS, Agencies, and Retainers. Set it once, bill forever.</p>
+                </div>
+                <div class="card reveal-right">
+                    <i class="fas fa-bell card-icon"></i>
+                    <h3>Smart Dunning</h3>
+                    <p>Polite but firm automated reminders for overdue payments via Email & WhatsApp.</p>
+                </div>
+                <div class="card reveal-left">
+                    <i class="fas fa-globe card-icon"></i>
+                    <h3>Multi-Currency</h3>
+                    <p>Bill in USD, get paid in INR. Real-time forex conversion.</p>
+                </div>
+                <div class="card reveal-right">
+                    <i class="fas fa-file-signature card-icon"></i>
+                    <h3>Tax Compliant</h3>
+                    <p>Auto-generates GST/VAT compliant invoices based on client location.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-demo"
+        style="padding: 6rem 0; background: var(--surface-color); border-top: 1px solid var(--primary-lime);">
+        <div class="container" style="text-align: center;">
+            <h2 style="font-size: 3.5rem; margin-bottom: 2rem;">Stop <span class="highlight">Chasing?</span></h2>
+            <p style="font-size: 1.2rem; color: #ccc; max-width: 600px; margin: 0 auto 3rem;">
+                Let the software handle the money. Deploy Billing OS today.
+            </p>
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                <a href="contact" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">Get Started
+                    &rarr;</a>
+            </div>
+            <p
+                style="margin-top: 2rem; font-size: 0.9rem; color: #666; text-align: center; width: 100%; display: block; max-width: 100%;">
+                * No credit card. Just pure ROI.</p>
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: #444; text-align: center;">
+                Subject to our <a href="terms" style="text-decoration: underline;">Terms</a> & <a href="privacy"
+                    style="text-decoration: underline;">Privacy Policy</a>.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <img src="Subix PNG.png" alt="Subix Logo">
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Building the future of automated business.<br>
+                    © 2026 Subix Inc.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="products">Products</a></li>
+                    <li><a href="services">Services</a></li>
+                    <li><a href="platform">LeadOS</a></li>
+                    <li><a href="about">Why Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy">Privacy Policy</a></li>
+                    <li><a href="terms">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://twitter.com" target="_blank">Twitter / X</a></li>
+                    <li><a href="https://www.linkedin.com/company/subix/about/" target="_blank">LinkedIn</a></li>
+                    <li><a href="mailto:contact@subix.in">contact@subix.in</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "@subix/hrms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "hrms.subix.in — Human Resource Management System",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3003",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.97.0",
+    "@subix/config": "workspace:*",
+    "@subix/auth": "workspace:*",
+    "@subix/db": "workspace:*",
+    "@subix/ui": "workspace:*"
+  }
+}

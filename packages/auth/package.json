@@ -1,0 +1,12 @@
+{
+    "name": "@subix/auth",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Shared Supabase authentication logic for all Subix apps",
+    "main": "index.js",
+    "type": "module",
+    "dependencies": {
+        "@supabase/supabase-js": "^2.97.0",
+        "@subix/config": "workspace:*"
+    }
+}

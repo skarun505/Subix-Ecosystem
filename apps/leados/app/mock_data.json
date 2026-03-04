@@ -1,0 +1,57 @@
+[
+  {
+    "id": "mock-1",
+    "name": "Rajesh Kumar",
+    "email": "rajesh.k@gmail.com",
+    "phone": "+91 98765 43210",
+    "status": "Inquiry",
+    "source": "MagicBricks",
+    "score": 85,
+    "owner": "Me",
+    "date": "2023-10-27"
+  },
+  {
+    "id": "mock-2",
+    "name": "Priya Sharma",
+    "email": "priya.sharma@outlook.com",
+    "phone": "+91 99887 76655",
+    "status": "Closed Won",
+    "source": "Referral",
+    "score": 98,
+    "owner": "Me",
+    "date": "2023-10-26"
+  },
+  {
+    "id": "mock-3",
+    "name": "Amit Bachchan",
+    "email": "amit.b@gmail.com",
+    "phone": "+91 91234 56789",
+    "status": "Offer Made",
+    "source": "99Acres",
+    "score": 60,
+    "owner": "Rohan",
+    "date": "2023-10-25"
+  },
+  {
+    "id": "mock-4",
+    "name": "Sneha Gupta",
+    "email": "sneha.g@techmail.com",
+    "phone": "+91 88990 01122",
+    "status": "Viewing Schedule",
+    "source": "Housing.com",
+    "score": 45,
+    "owner": "Anjali",
+    "date": "2023-10-24"
+  },
+  {
+    "id": "mock-5",
+    "name": "Vikram Singh",
+    "email": "vikram.s@yahoo.co.in",
+    "phone": "+91 90000 11111",
+    "status": "Inquiry",
+    "source": "Website Form",
+    "score": 20,
+    "owner": "Me",
+    "date": "2023-10-28"
+  }
+]

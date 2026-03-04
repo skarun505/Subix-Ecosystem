@@ -1,0 +1,280 @@
+/* ══════════════════════════════════════════════
+   SUBIX ACCOUNTS — Sign Up Extras
+   accounts.subix.in/signup  |  signup.css
+   (Builds on top of ../style.css)
+   ══════════════════════════════════════════════ */
+
+/* ── Password Strength Bar ───────────────────── */
+.strength-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.25s, transform 0.25s;
+}
+
+.strength-wrap.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.strength-bar {
+    flex: 1;
+    height: 4px;
+    background: #1a1a1a;
+    border-radius: 100px;
+    overflow: hidden;
+    border: 1px solid #2a2a2a;
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 100px;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.35s;
+    background: #ff6b6b;
+}
+
+.strength-fill.weak {
+    width: 33%;
+    background: #ff6b6b;
+}
+
+.strength-fill.fair {
+    width: 66%;
+    background: #f59e0b;
+}
+
+.strength-fill.strong {
+    width: 100%;
+    background: #ccff00;
+}
+
+.strength-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    min-width: 44px;
+    color: #888;
+    transition: color 0.3s;
+}
+
+.strength-label.weak {
+    color: #ff6b6b;
+}
+
+.strength-label.fair {
+    color: #f59e0b;
+}
+
+.strength-label.strong {
+    color: #ccff00;
+}
+
+/* ── Confirm-match icon ──────────────────────── */
+.match-icon {
+    position: absolute;
+    right: 14px;
+    font-size: 14px;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+/* ── Checkbox ────────────────────────────────── */
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.checkbox-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkbox-custom {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    background: var(--surface-hi);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.checkbox-custom::after {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 9px;
+    border: 2px solid #000;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    margin-top: -2px;
+}
+
+.checkbox-input:checked+.checkbox-custom {
+    background: var(--lime);
+    border-color: var(--lime);
+    box-shadow: 0 0 0 3px rgba(204, 255, 0, 0.15);
+}
+
+.checkbox-input:checked+.checkbox-custom::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.checkbox-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.inline-link {
+    color: var(--lime);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.inline-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* ── Email Verification Screen ───────────────── */
+.verify-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.verify-screen[aria-hidden="false"] {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.verify-card {
+    background: rgba(17, 17, 17, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 40px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(157, 78, 221, 0.08);
+    animation: card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.verify-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(204, 255, 0, 0.08);
+    border: 1px solid rgba(204, 255, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.15);
+    }
+
+    50% {
+        box-shadow: 0 0 0 12px rgba(204, 255, 0, 0);
+    }
+}
+
+.verify-title {
+    font-family: var(--font-head);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+}
+
+.verify-body {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.verify-email {
+    color: var(--lime);
+    font-weight: 600;
+    display: block;
+    margin-top: 4px;
+}
+
+.verify-hint {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.verify-btn {
+    display: inline-flex;
+    max-width: 220px;
+    margin: 0 auto 16px;
+    text-decoration: none;
+}
+
+.resend-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    transition: color 0.2s;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.resend-btn:hover {
+    color: var(--text);
+}
+
+.resend-link {
+    color: var(--lime);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 480px) {
+    .verify-card {
+        padding: 36px 24px;
+    }
+}

@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subix LeadOS - Lead-to-Revenue Operating System</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-phase1.css">
+    <link rel="stylesheet" href="styles-phase2.css">
+    <link rel="stylesheet" href="styles-pipeline.css">
+    <link rel="stylesheet" href="styles-leads.css">
+    <link rel="stylesheet" href="styles-reports.css">
+    <link rel="stylesheet" href="styles-login.css">
+
+    <!-- ✅ Supabase CDN (loaded early for session guard) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Subix Shared Configuration (from @subix/config)
+        window.SubixConfig = {
+            supabaseUrl: "https://xrlqmngxxtbjxrkliypa.supabase.co",
+            supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybHFtbmd4eHRianhya2xpeXBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE3MzI3MTUsImV4cCI6MjA4NzMwODcxNX0.qUBlRGyY8u-gUOkAjGvgKRrK36uzMuVMZj9Qs2zODQc",
+            authUrl: "https://accounts.subix.in",
+            productBase: "https://subix.in"
+        };
+    </script>
+
+    <!-- ✅ SESSION GUARD — Central Subix Auth -->
+    <script>
+        // Hide everything instantly until we verify session
+        document.documentElement.style.visibility = 'hidden';
+
+        const _SB_URL = window.SubixConfig.supabaseUrl;
+        const _SB_KEY = window.SubixConfig.supabaseKey;
+
+        // ✅ LOCAL DEV BYPASS — detect localhost / file:// / 127.0.0.1
+        const _isLocalDev = (
+            window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1' ||
+            window.location.protocol === 'file:'
+        );
+
+        function _populateSidebarUser(name, email) {
+            const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+            const nameEl = document.getElementById('sidebar-user-name');
+            const roleEl = document.getElementById('sidebar-user-role');
+            const avatarEl = document.getElementById('sidebar-user-avatar');
+            if (nameEl) nameEl.textContent = name;
+            if (roleEl) roleEl.textContent = email;
+            if (avatarEl) avatarEl.textContent = initials;
+        }
+
+        if (_isLocalDev) {
+            // 🛠️ LOCAL DEV MODE — skip auth
+            window._subixUser = { id: 'dev-user', email: 'dev@subix.local', user_metadata: { full_name: 'Dev User' } };
+            document.documentElement.style.visibility = 'visible';
+            document.addEventListener('DOMContentLoaded', () => _populateSidebarUser('Dev User', 'dev@subix.local'));
+            window.subixLogout = () => {
+                console.log('🛠️ Local dev logout — reloading page.');
+                window.location.reload();
+            };
+        } else {
+            // Expose globally so login form below can use the same instance
+            window._sb = supabase.createClient(_SB_URL, _SB_KEY);
+
+            (async () => {
+                const currentUrl = window.location.origin + window.location.pathname + window.location.search;
+                const loginUrlBase = 'https://accounts.subix.in?next=' + encodeURIComponent(currentUrl);
+
+                try {
+                    // 1. SILENT SSO HANDOFF - Check Hash First
+                    const hash = window.location.hash.substring(1);
+                    if (hash.includes('access_token=')) {
+                        console.log('🎫 SSO Handoff detected. Processing tokens...');
+                        const params = new URLSearchParams(hash);
+                        const access = params.get('access_token');
+                        const refresh = params.get('refresh_token');
+
+                        if (access && refresh) {
+                            const { error } = await window._sb.auth.setSession({ access_token: access, refresh_token: refresh });
+                            if (error) {
+                                console.error('Handoff failed:', error.message);
+                            } else {
+                                console.log('Successfully logged in via handoff.');
+                                sessionStorage.removeItem('last_subix_redirect'); // Success! Reset loop guard
+                                window.history.replaceState(null, null, currentUrl); // Clean URL
+                            }
+                        }
+                    }
+
+                    // 2. VERIFY SESSION (with retry for stability)
+                    let session = null;
+                    for (let i = 0; i < 3; i++) {
+                        const { data } = await window._sb.auth.getSession();
+                        if (data.session) {
+                            session = data.session;
+                            break;
+                        }
+                        if (i < 2) await new Promise(r => setTimeout(r, 200)); // Short wait for sync
+                    }
+
+                    if (!session) {
+                        // 3. REDIRECT LOOP GUARD
+                        const lastRedirect = sessionStorage.getItem('last_subix_redirect');
+                        const now = Date.now();
+
+                        // If redirected again in less than 3 seconds, we have a loop
+                        if (lastRedirect && (now - parseInt(lastRedirect) < 3000)) {
+                            console.error('⚠️ Redirect loop detected. Stopping.');
+                            document.body.innerHTML = `
+                                <div style="height:100vh; background:#0f172a; color:#f8fafc; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; text-align:center; padding:20px;">
+                                    <div style="font-size:3rem; margin-bottom:1rem;">🛰️</div>
+                                    <h2 style="margin-bottom:0.5rem;">Connection Issue</h2>
+                                    <p style="color:#94a3b8; max-width:400px; margin-bottom:1.5rem;">We're having trouble syncing your Subix session. This usually happens if cookies are blocked or the login expired.</p>
+                                    <a href="https://accounts.subix.in" style="background:#ccff00; color:#000; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">Sign In Again</a>
+                                    <button onclick="location.reload()" style="background:transparent; color:#94a3b8; border:none; margin-top:1rem; cursor:pointer; text-decoration:underline;">Try once more</button>
+                                </div>
+                            `;
+                            document.documentElement.style.visibility = 'visible';
+                            return;
+                        }
+
+                        sessionStorage.setItem('last_subix_redirect', now.toString());
+                        console.log('No session. Rendering local login page...');
+                        document.documentElement.style.visibility = 'visible';
+                        document.addEventListener('DOMContentLoaded', () => {
+                            document.getElementById('login-container').style.display = 'flex';
+                            document.querySelector('.app-container').style.display = 'none';
+                        });
+                        return;
+                    }
+
+                    // 4. LOGGED IN - Reset guard and show app
+                    sessionStorage.removeItem('last_subix_redirect');
+                    window._subixUser = session.user;
+                    document.documentElement.style.visibility = 'visible';
+
+                    // Populate sidebar name
+                    // Populate sidebar name
+                    const populateProfile = () => {
+                        const meta = session.user.user_metadata || {};
+                        const displayName = meta.full_name || meta.name || meta.display_name || session.user.email.split('@')[0];
+                        _populateSidebarUser(displayName, session.user.email);
+                    };
+
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', populateProfile);
+                    } else {
+                        populateProfile();
+                    }
+
+                } catch (err) {
+                    console.error('Session guard fatal error:', err);
+                    window.location.replace(loginUrlBase);
+                }
+            })();
+
+            window.subixLogout = async () => {
+                sessionStorage.removeItem('last_subix_redirect'); // Reset guard for next login
+                if (window._sb) await window._sb.auth.signOut();
+                // Stay on LeadOS, which will natively show the login screen upon reload
+                window.location.replace(window.location.origin + window.location.pathname);
+            };
+        }
+    </script>
+</head>
+
+<body>
+    <!-- ✅ LOCAL LOGIN SCREEN (Fallback/Standalone) -->
+    <div id="login-container" style="display: none;">
+        <div class="login-card glass-panel">
+            <div class="login-logo">
+                <img src="assets/logo.png" alt="Subix LeadOS Logo">
+                <h1 class="login-brand-text">LeadOS <span style="color:var(--primary); font-weight:300;">Login</span>
+                </h1>
+                <p class="login-tagline">Sign in with your Subix Network account.</p>
+            </div>
+            <div id="login-error" class="login-error"></div>
+            <form id="local-login-form" class="login-form">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" placeholder="you@subix.in" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-login" id="btn-login-submit">Sign In</button>
+            </form>
+            <div class="login-footer">
+                <p>Not registered? <a href="https://accounts.subix.in/signup">Create an account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Handling Local Login Form Submission -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('local-login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    const btn = document.getElementById('btn-login-submit');
+                    const err = document.getElementById('login-error');
+
+                    btn.textContent = 'Signing in...';
+                    btn.disabled = true;
+                    err.style.display = 'none';
+
+                    try {
+                        if (!window._sb) throw new Error("Supabase client not initialized.");
+
+                        const { data, error } = await window._sb.auth.signInWithPassword({ email, password });
+
+                        if (error) throw error;
+
+                        // Explicitly set session to ensure persistence before reload
+                        if (data.session) {
+                            await window._sb.auth.setSession(data.session);
+                        }
+
+                        // Success! Refresh the page so the session guard catches it and loads the app
+                        window.location.reload();
+                    } catch (error) {
+                        err.textContent = error.message;
+                        err.style.display = 'block';
+                        btn.textContent = 'Sign In';
+                        btn.disabled = false;
+                    }
+                });
+            }
+        });
+    </script>
+
+    <div class="app-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand"
+                style="flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 2.5rem;">
+                <img src="assets/logo.png" alt="Subix LeadOS" style="height: 40px; width: auto;">
+                <div style="font-size: 1.25rem;"><span class="brand-subix">Subix</span>LeadOS</div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <span class="material-icons-round">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-view="pipeline">
+                    <span class="material-icons-round">view_kanban</span>
+                    <span>Pipeline</span>
+                </a>
+                <a href="#" class="nav-item" data-view="leads">
+                    <span class="material-icons-round">contacts</span>
+                    <span>All Leads</span>
+                </a>
+                <a href="#" class="nav-item" data-view="automation">
+                    <span class="material-icons-round">smart_toy</span>
+                    <span>Automation</span>
+                </a>
+                <a href="#" class="nav-item" data-view="analytics">
+                    <span class="material-icons-round">analytics</span>
+                    <span>Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile"
+                    style="cursor: pointer; justify-content: space-between; overflow: hidden; gap: 0.5rem;"
+                    title="Sign Out">
+                    <div style="display: flex; align-items: center; gap: 0.8rem; min-width: 0; flex: 1;">
+                        <div class="avatar" id="sidebar-user-avatar" style="flex-shrink: 0;">—</div>
+                        <div class="user-info"
+                            style="display: flex; flex-direction: column; min-width: 0; overflow: hidden; width: 100%;">
+                            <span class="name" id="sidebar-user-name"
+                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">Loading…</span>
+                            <span class="role" id="sidebar-user-role"
+                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">Subix
+                                Account</span>
+                        </div>
+                    </div>
+                    <span class="material-icons-round"
+                        style="color: #94a3b8; font-size: 1.2rem; flex-shrink: 0;">logout</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="page-title">
+                    <h1 id="page-title">Dashboard</h1>
+                    <p class="subtitle" id="current-date">Fetching date...</p>
+                </div>
+
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <span class="material-icons-round search-icon">search</span>
+                        <input type="text" id="search-input" placeholder="Search leads...">
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-lead">
+                        <span class="material-icons-round">add</span>
+                        New Lead
+                    </button>
+                    <div class="notifications" id="btn-notifications">
+                        <div style="position: relative;">
+                            <span class="material-icons-round">notifications</span>
+                            <span class="badge" style="display: none;">0</span>
+                        </div>
+
+                        <!-- Dropdown -->
+                        <div class="notifications-dropdown glass-panel">
+                            <div class="notif-header">
+                                <span>Notifications</span>
+                                <span class="text-muted" style="cursor: pointer; font-size: 0.8rem;">Mark all
+                                    read</span>
+                            </div>
+                            <div class="notif-list" id="notif-list">
+                                <div
+                                    style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                                    No new notifications
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <div id="view-dashboard" class="view-section active">
+                <!-- Date Range Filter -->
+                <div class="date-quick-filters">
+                    <button class="date-quick-btn active" data-range="all">All Time</button>
+                    <button class="date-quick-btn" data-range="today">Today</button>
+                    <button class="date-quick-btn" data-range="week">This Week</button>
+                    <button class="date-quick-btn" data-range="month">This Month</button>
+                    <button class="date-quick-btn" data-range="custom">Custom</button>
+                    <div class="date-range-filter" id="custom-date-range" style="display: none; margin-left: auto;">
+                        <input type="date" id="date-from" />
+                        <span style="color: var(--text-muted)">to</span>
+                        <input type="date" id="date-to" />
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon color-primary">
+                            <span class="material-icons-round">groups</span>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="label">Total Leads</span>
+                            <span class="value">0</span>
+                            <span class="trend">0% vs last month</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon color-success">
+                            <span class="material-icons-round">check_circle</span>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="label">Conversion Rate</span>
+                            <span class="value">0%</span>
+                            <span class="trend">0% vs last month</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon color-warning">
+                            <span class="material-icons-round">access_time</span>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="label">Avg Response Time</span>
+                            <span class="value">0s</span>
+                            <span class="trend">No data</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon color-info">
+                            <span class="material-icons-round">payments</span>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="label">Projected Revenue</span>
+                            <span class="value">₹0</span>
+                            <span class="trend">No data</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity & Pipeline Summary -->
+                <div class="content-grid">
+                    <div class="card glass-panel section-pipeline">
+                        <div class="card-header">
+                            <h3>Pipeline Overview</h3>
+                            <button class="btn-icon"><span class="material-icons-round">more_horiz</span></button>
+                        </div>
+                        <div class="pipeline-bars">
+                            <!-- Populated by JS -->
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+
+                    <div class="card glass-panel section-activity">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                            <button class="btn-text" id="view-all-activity">View All</button>
+                        </div>
+                        <ul class="activity-list" id="activity-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Dashboard Bottom Widgets: Follow-ups + Leads at Risk -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
+                    <div class="card glass-panel" style="padding:1.5rem;">
+                        <div class="card-header" style="margin-bottom:1rem;">
+                            <h3 style="display:flex;align-items:center;gap:0.5rem;font-size:1rem;">
+                                <span class="material-icons-round"
+                                    style="color:#f59e0b;font-size:1.2rem;">event_available</span>
+                                Today's Follow-Ups
+                            </h3>
+                            <span id="followup-count"
+                                style="background:rgba(245,158,11,0.2);color:#f59e0b;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:700;display:none;">0</span>
+                        </div>
+                        <div id="followup-today-list">
+                            <div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:0.9rem;">
+                                Loading...</div>
+                        </div>
+                    </div>
+                    <div class="card glass-panel" style="padding:1.5rem;">
+                        <div class="card-header" style="margin-bottom:1rem;">
+                            <h3 style="display:flex;align-items:center;gap:0.5rem;font-size:1rem;">
+                                <span class="material-icons-round"
+                                    style="color:#ef4444;font-size:1.2rem;">warning</span>
+                                Leads at Risk
+                            </h3>
+                            <span id="risk-count"
+                                style="background:rgba(239,68,68,0.2);color:#ef4444;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:700;display:none;">0</span>
+                        </div>
+                        <div id="leads-at-risk-list">
+                            <div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:0.9rem;">
+                                Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leads View (Hidden by default) -->
+            <!-- Leads View -->
+            <div id="view-leads" class="view-section">
+                <div class="card glass-panel">
+                    <div class="table-controls">
+                        <div class="filter-group">
+                            <select class="select-input" id="filter-status">
+                                <option value="">All Statuses</option>
+                                <option value="New">New</option>
+                                <option value="Contacted">Contacted</option>
+                                <option value="Qualified">Qualified</option>
+                                <option value="Proposal Sent">Proposal Sent</option>
+                                <option value="Negotiation">Negotiation</option>
+                                <option value="Won">Won</option>
+                                <option value="Lost">Lost</option>
+                            </select>
+                            <select class="select-input" id="filter-source">
+                                <option value="">All Sources</option>
+                                <option value="Website Form">Website Form</option>
+                                <option value="Manual Entry">Manual Entry</option>
+                                <option value="Referral">Referral</option>
+                                <option value="WhatsApp">WhatsApp</option>
+                                <option value="Cold Call">Cold Call</option>
+                            </select>
+                            <button class="btn btn-secondary" id="btn-import-leads"
+                                style="gap: 5px; padding: 0.5rem 1rem; color: var(--text-main); border-color: rgba(255,255,255,0.1);">
+                                <span class="material-icons-round" style="font-size: 1.2rem;">upload_file</span>
+                                Import
+                            </button>
+                            <button class="btn btn-secondary" onclick="exportLeadsToCSV()"
+                                style="gap:5px;padding:0.5rem 1rem;color:var(--success);border-color:rgba(16,185,129,0.3);">
+                                <span class="material-icons-round" style="font-size:1.2rem;">download</span>
+                                Export
+                            </button>
+                            <button id="adv-search-toggle" class="btn btn-secondary" title="Advanced Filters"
+                                style="gap:5px;padding:0.5rem 1rem;color:var(--text-muted);border-color:rgba(255,255,255,0.1);">
+                                <span class="material-icons-round" style="font-size:1.2rem;">tune</span>
+                                Filters
+                            </button>
+                            <input type="file" id="file-import-csv" accept=".csv" style="display: none;">
+                        </div>
+                        <div class="pagination">
+                            <span class="pagination-info">1-9 of 9</span>
+                            <div class="pagination-controls">
+                                <button class="btn-icon small" disabled><span
+                                        class="material-icons-round">chevron_left</span></button>
+                                <button class="btn-icon small" disabled><span
+                                        class="material-icons-round">chevron_right</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Search Panel -->
+                    <div id="adv-search-panel"
+                        style="display:none;background:rgba(255,255,255,0.04);border-radius:12px;padding:1.25rem;margin-bottom:1rem;display:none;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+                        <div class="form-group" style="margin:0;">
+                            <label style="font-size:0.78rem;">Budget Min (₹)</label>
+                            <input type="number" id="adv-budget-min" class="adv-filter" placeholder="e.g. 2000000"
+                                style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#f8fafc;padding:0.6rem;font-family:inherit;font-size:0.85rem;">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label style="font-size:0.78rem;">Budget Max (₹)</label>
+                            <input type="number" id="adv-budget-max" class="adv-filter" placeholder="e.g. 10000000"
+                                style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#f8fafc;padding:0.6rem;font-family:inherit;font-size:0.85rem;">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label style="font-size:0.78rem;">Location</label>
+                            <input type="text" id="adv-location" class="adv-filter" placeholder="City or area..."
+                                style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#f8fafc;padding:0.6rem;font-family:inherit;font-size:0.85rem;">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label style="font-size:0.78rem;">Min Lead Score</label>
+                            <input type="number" id="adv-score-min" class="adv-filter" placeholder="0–100" min="0"
+                                max="100"
+                                style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#f8fafc;padding:0.6rem;font-family:inherit;font-size:0.85rem;">
+                        </div>
+                    </div>
+
+                    <table class="data-table" id="leads-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">
+                                    <input type="checkbox" class="checkbox" id="select-all" title="Select All">
+                                </th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Source</th>
+                                <th>Score</th>
+                                <th>Age</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Automation View -->
+            <div id="view-automation" class="view-section">
+                <!-- Automation Header -->
+                <div class="card-header" style="margin-bottom: 2rem;">
+                    <div>
+                        <h2>Automation Rules</h2>
+                        <p class="text-muted">Set up logic to automate your real estate workflow.</p>
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-rule">
+                        <span class="material-icons-round">add</span>
+                        New Rule
+                    </button>
+                </div>
+
+                <!-- Automation Cards -->
+                <div class="automation-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+
+                    <!-- Rule 1: Welcome Email -->
+                    <div class="card glass-panel" style="padding: 1.5rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div class="icon-box"
+                                style="padding: 10px; border-radius: 8px; background: rgba(99, 102, 241, 0.2); color: #818cf8;">
+                                <span class="material-icons-round">email</span>
+                            </div>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">Instant Welcome Email</h3>
+                        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                            When a new lead arrives from <strong>Any Source</strong>, automatically send the "Welcome
+                            Kit" email.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">New Lead</span>
+                            <span class="material-icons-round"
+                                style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Send Gmail</span>
+                        </div>
+                    </div>
+
+                    <!-- Rule 2: Smart Follow-up -->
+                    <div class="card glass-panel" style="padding: 1.5rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div class="icon-box"
+                                style="padding: 10px; border-radius: 8px; background: rgba(245, 158, 11, 0.2); color: #fbbf24;">
+                                <span class="material-icons-round">event_repeat</span>
+                            </div>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">Smart Follow-up</h3>
+                        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                            If lead status stays <strong>New</strong> for <strong>2 days</strong>, automatically
+                            schedule a follow-up call task.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Inactivity</span>
+                            <span class="material-icons-round"
+                                style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Create Task</span>
+                        </div>
+                    </div>
+
+                    <!-- Rule 3: Auto Assignment -->
+                    <div class="card glass-panel" style="padding: 1.5rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div class="icon-box"
+                                style="padding: 10px; border-radius: 8px; background: rgba(59, 130, 246, 0.2); color: #60a5fa;">
+                                <span class="material-icons-round">how_to_reg</span>
+                            </div>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">Auto-Assign Rep</h3>
+                        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                            When source is <strong>Website</strong>, automatically assign lead to <strong>Sales Team
+                                A</strong>.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Source Match</span>
+                            <span class="material-icons-round"
+                                style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Assign User</span>
+                        </div>
+                    </div>
+
+                    <!-- Rule 4: High Value Alert -->
+                    <div class="card glass-panel" style="padding: 1.5rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div class="icon-box"
+                                style="padding: 10px; border-radius: 8px; background: rgba(239, 68, 68, 0.2); color: #f87171;">
+                                <span class="material-icons-round">notification_important</span>
+                            </div>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">High Value Alert</h3>
+                        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                            When budget is <strong>> ₹50 Lakhs</strong>, send instant WhatsApp alert to
+                            <strong>Manager</strong>.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">High Budget</span>
+                            <span class="material-icons-round"
+                                style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Alert Manager</span>
+                        </div>
+                    </div>
+
+                    <!-- Rule 5: Cold Lead Cleanup -->
+                    <div class="card glass-panel" style="padding: 1.5rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div class="icon-box"
+                                style="padding: 10px; border-radius: 8px; background: rgba(34, 211, 238, 0.2); color: #22d3ee;">
+                                <span class="material-icons-round">ac_unit</span>
+                            </div>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">Cold Lead Cleanup</h3>
+                        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                            If no activity for <strong>30 Days</strong>, automatically move status to
+                            <strong>Lost</strong> or <strong>On Hold</strong>.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">30d Inactivity</span>
+                            <span class="material-icons-round"
+                                style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Update Status</span>
+                        </div>
+                    </div>
+
+                    <!-- Rule 6: WhatsApp Engagement -->
+                    <div class="card glass-panel" style="padding: 1.5rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div class="icon-box"
+                                style="padding: 10px; border-radius: 8px; background: rgba(37, 211, 102, 0.2); color: #4ade80;">
+                                <span class="material-icons-round">whatsapp</span>
+                            </div>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">WhatsApp Updates</h3>
+                        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                            When status changes to <strong>Qualified</strong>, send WhatsApp message with property
+                            brochure.
+                        </p>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Qualified</span>
+                            <span class="material-icons-round"
+                                style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                            <span class="status-badge" style="background: rgba(255,255,255,0.1);">Send Msg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pipeline View (Kanban) -->
+            <div id="view-pipeline" class="view-section">
+                <!-- Pipeline Toolbar -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                    <div style="display:flex;align-items:center;gap:0.5rem;color:var(--text-muted);font-size:0.85rem;">
+                        <span class="material-icons-round" style="font-size:1rem;">drag_indicator</span>
+                        Drag cards to change status
+                    </div>
+                    <button id="smart-sort-btn" onclick="toggleSmartSort()"
+                        style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:var(--text-muted);cursor:pointer;font-size:0.85rem;font-weight:500;transition:all 0.2s;">
+                        <span class="material-icons-round" style="font-size:1.1rem;">auto_awesome</span>
+                        Smart Sort
+                    </button>
+                </div>
+                <div class="kanban-board" id="kanban-board">
+                    <!-- Populated by JS -->
+                    <div class="kanban-column" data-stage="New">
+                        <div class="column-header">
+                            <span class="col-title">New</span>
+                            <span class="col-count">0</span>
+                        </div>
+                        <div class="column-content"></div>
+                    </div>
+                    <div class="kanban-column" data-stage="Contacted">
+                        <div class="column-header">
+                            <span class="col-title">Contacted</span>
+                            <span class="col-count">0</span>
+                        </div>
+                        <div class="column-content"></div>
+                    </div>
+                    <div class="kanban-column" data-stage="Qualified">
+                        <div class="column-header">
+                            <span class="col-title">Qualified</span>
+                            <span class="col-count">0</span>
+                        </div>
+                        <div class="column-content"></div>
+                    </div>
+                    <div class="kanban-column" data-stage="Proposal Sent">
+                        <div class="column-header">
+                            <span class="col-title">Proposal Sent</span>
+                            <span class="col-count">0</span>
+                        </div>
+                        <div class="column-content"></div>
+                    </div>
+                    <div class="kanban-column" data-stage="Negotiation">
+                        <div class="column-header">
+                            <span class="col-title">Negotiation</span>
+                            <span class="col-count">0</span>
+                        </div>
+                        <div class="column-content"></div>
+                    </div>
+                    <div class="kanban-column" data-stage="Won">
+                        <div class="column-header">
+                            <span class="col-title">Won</span>
+                            <span class="col-count">0</span>
+                        </div>
+                        <div class="column-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports View -->
+            <div id="view-analytics" class="view-section">
+                <!-- KPI Summary -->
+                <div class="kpi-grid" style="margin-bottom: 2rem;">
+                    <!-- Revenue -->
+                    <div class="kpi-card-enhanced glass-panel">
+                        <div class="kpi-card-header">
+                            <span class="label">Total Revenue</span>
+                            <div class="kpi-icon-lg"
+                                style="color: var(--primary); background: rgba(99, 102, 241, 0.1);">
+                                <span class="material-icons-round">payments</span>
+                            </div>
+                        </div>
+                        <div class="kpi-value-lg" id="report-total-revenue">₹0</div>
+                        <span class="trend up" style="display: flex; align-items: center; gap: 4px;"
+                            id="report-revenue-trend">
+                            <span class="material-icons-round" style="font-size: 1rem;">trending_up</span>
+                            ...
+                        </span>
+                    </div>
+
+                    <!-- Commissions -->
+                    <div class="kpi-card-enhanced glass-panel">
+                        <div class="kpi-card-header">
+                            <span class="label">Commissions</span>
+                            <div class="kpi-icon-lg"
+                                style="color: var(--success); background: rgba(16, 185, 129, 0.1);">
+                                <span class="material-icons-round">account_balance_wallet</span>
+                            </div>
+                        </div>
+                        <div class="kpi-value-lg" id="report-commissions">₹0</div>
+                        <span class="trend up" style="display: flex; align-items: center; gap: 4px;"
+                            id="report-commission-trend">
+                            <span class="material-icons-round" style="font-size: 1rem;">monetization_on</span>
+                            Estimated Payout
+                        </span>
+                    </div>
+
+                    <!-- Deals -->
+                    <div class="kpi-card-enhanced glass-panel">
+                        <div class="kpi-card-header">
+                            <span class="label">Deals Closed</span>
+                            <div class="kpi-icon-lg" style="color: var(--accent); background: rgba(56, 189, 248, 0.1);">
+                                <span class="material-icons-round">check_circle</span>
+                            </div>
+                        </div>
+                        <div class="kpi-value-lg" id="report-deals-closed">0</div>
+                        <span class="trend up" style="display: flex; align-items: center; gap: 4px;"
+                            id="report-deals-trend">
+                            <span class="material-icons-round" style="font-size: 1rem;">arrow_upward</span>
+                            This Year
+                        </span>
+                    </div>
+
+                    <!-- Deal Size -->
+                    <div class="kpi-card-enhanced glass-panel">
+                        <div class="kpi-card-header">
+                            <span class="label">Avg. Deal Size</span>
+                            <div class="kpi-icon-lg"
+                                style="color: var(--warning); background: rgba(245, 158, 11, 0.1);">
+                                <span class="material-icons-round">pie_chart</span>
+                            </div>
+                        </div>
+                        <div class="kpi-value-lg" id="report-avg-deal">₹0</div>
+                        <span class="trend down" style="display: flex; align-items: center; gap: 4px;"
+                            id="report-size-trend">
+                            <span class="material-icons-round" style="font-size: 1rem;">trending_down</span>
+                            Market Average
+                        </span>
+                    </div>
+                </div>
+
+                <div class="report-grid">
+                    <!-- Revenue Chart -->
+                    <div class="card glass-panel">
+                        <div class="card-header">
+                            <h3>Revenue Growth</h3>
+                            <select class="select-input" style="width: auto;">
+                                <option>Last 6 Months</option>
+                                <option>This Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container-enhanced">
+                            <div class="bar-chart-visual">
+                                <!-- Grid Lines -->
+                                <div class="chart-grid-line" style="bottom: 20%;"></div>
+                                <div class="chart-grid-line" style="bottom: 50%;"></div>
+                                <div class="chart-grid-line" style="bottom: 80%;"></div>
+
+                                <!-- May -->
+                                <div class="bar-group">
+                                    <div class="bar-tooltip">₹1.2 Cr</div>
+                                    <div class="bar" style="height: 40%;"></div>
+                                    <span class="bar-label">May</span>
+                                </div>
+                                <!-- Jun -->
+                                <div class="bar-group">
+                                    <div class="bar-tooltip">₹1.5 Cr</div>
+                                    <div class="bar" style="height: 55%; background: rgba(99, 102, 241, 0.8);"></div>
+                                    <span class="bar-label">Jun</span>
+                                </div>
+                                <!-- Jul -->
+                                <div class="bar-group">
+                                    <div class="bar-tooltip">₹1.3 Cr</div>
+                                    <div class="bar" style="height: 45%; background: rgba(99, 102, 241, 0.7);"></div>
+                                    <span class="bar-label">Jul</span>
+                                </div>
+                                <!-- Aug -->
+                                <div class="bar-group">
+                                    <div class="bar-tooltip">₹2.1 Cr</div>
+                                    <div class="bar" style="height: 70%; background: rgba(99, 102, 241, 0.9);"></div>
+                                    <span class="bar-label">Aug</span>
+                                </div>
+                                <!-- Sep -->
+                                <div class="bar-group">
+                                    <div class="bar-tooltip">₹2.8 Cr</div>
+                                    <div class="bar" style="height: 85%;"></div>
+                                    <span class="bar-label">Sep</span>
+                                </div>
+                                <!-- Oct -->
+                                <div class="bar-group active">
+                                    <div class="bar-tooltip">₹3.5 Cr</div>
+                                    <div class="bar accent" style="height: 100%;"></div>
+                                    <span class="bar-label"
+                                        style="color: var(--text-main); font-weight: 700;">Oct</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lead Source Breakdown -->
+                    <div class="card glass-panel" style="display: flex; flex-direction: column;">
+                        <div class="card-header">
+                            <h3>Lead Sources</h3>
+                        </div>
+                        <div class="chart-donut-wrapper" style="flex: 1; justify-content: center;">
+                            <div class="donut-chart-container">
+                                <div class="chart-donut"></div>
+                            </div>
+
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-dot"
+                                        style="background: var(--accent); box-shadow: 0 0 10px var(--accent);"></div>
+                                    <span>MagicBricks (42%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot"
+                                        style="background: var(--primary); box-shadow: 0 0 10px var(--primary);"></div>
+                                    <span>99Acres (30%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot"
+                                        style="background: var(--success); box-shadow: 0 0 10px var(--success);"></div>
+                                    <span>Referrals (18%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot"
+                                        style="background: var(--warning); box-shadow: 0 0 10px var(--warning);"></div>
+                                    <span>Facebook (10%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Source ROI Table -->
+                <div class="card glass-panel" style="margin-top:1.5rem;padding:1.5rem;">
+                    <div class="card-header" style="margin-bottom:1.25rem;">
+                        <h3 style="display:flex;align-items:center;gap:0.5rem;">
+                            <span class="material-icons-round" style="color:var(--primary);">insights</span>
+                            Source ROI &amp; Conversion Rates
+                        </h3>
+                        <button onclick="renderSourceROIReport()" class="btn-icon" title="Refresh"><span
+                                class="material-icons-round">refresh</span></button>
+                    </div>
+                    <div id="source-roi-container">
+                        <div style="text-align:center;padding:1.5rem;color:var(--text-muted);">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+    </main>
+    </div>
+
+    <!-- Modal for New Lead -->
+    <div class="modal-overlay" id="add-lead-modal">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h2>Add New Lead</h2>
+                <button class="btn-icon close-modal"><span class="material-icons-round">close</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="new-lead-form">
+                    <div class="form-group">
+                        <label>Lead Name</label>
+                        <input type="text" name="name" required placeholder="Full Name">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" required placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone" required placeholder="+1 234 567 890">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Source</label>
+                            <select name="source">
+                                <option value="Website Form">Website Form</option>
+                                <option value="Manual Entry">Manual Entry</option>
+                                <option value="Referral">Referral</option>
+                                <option value="WhatsApp">WhatsApp</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="status">
+                                <option value="New">New</option>
+                                <option value="Contacted">Contacted</option>
+                                <option value="Qualified">Qualified</option>
+                                <option value="Proposal Sent">Proposal Sent</option>
+                                <option value="Negotiation">Negotiation</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Budget (₹)</label>
+                        <input type="number" name="budget" placeholder="e.g., 5000000 for ₹50 Lakhs" min="0"
+                            step="100000">
+                        <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.3rem; display: block;">
+                            💡 Tip: Enter ≥ 5000000 (₹50L) for high-value badge
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea name="notes" rows="3" placeholder="Initial interactions..."></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Lead</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Lead Detail Modal (Phase 2) -->
+    <div id="lead-detail-modal" class="modal-overlay" style="display: none;">
+        <div class="lead-detail-container glass-panel">
+            <!-- Modal Header -->
+            <div class="lead-detail-header">
+                <button class="btn-icon" id="lead-detail-back">
+                    <span class="material-icons-round">arrow_back</span>
+                </button>
+                <div class="lead-detail-title">
+                    <h2 id="lead-detail-name">Loading...</h2>
+                    <span id="lead-detail-subtitle" class="text-muted">Lead Details</span>
+                </div>
+                <button class="btn-icon" id="lead-detail-close">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+
+            <!-- Lead Summary Bar -->
+            <div class="lead-summary-bar">
+                <div class="lead-avatar">
+                    <span id="lead-avatar-initials">--</span>
+                </div>
+                <div class="lead-summary-info">
+                    <div class="lead-meta-row">
+                        <span class="lead-meta-item">
+                            <span class="material-icons-round">phone</span>
+                            <span id="lead-phone">--</span>
+                        </span>
+                        <span class="lead-meta-item">
+                            <span class="material-icons-round">email</span>
+                            <span id="lead-email">--</span>
+                        </span>
+                        <span class="lead-meta-item">
+                            <span class="material-icons-round">source</span>
+                            <span id="lead-source">--</span>
+                        </span>
+                    </div>
+                    <div class="lead-meta-row">
+                        <span id="lead-status-badge" class="status-badge">--</span>
+                        <span class="lead-score-display">
+                            Score: <strong id="lead-score-value">--</strong>/100
+                        </span>
+                        <span class="lead-age-display">
+                            Age: <strong id="lead-age-value">--</strong>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="lead-quick-actions">
+                <button class="btn btn-primary" id="action-call">
+                    <span class="material-icons-round">call</span>
+                    Call
+                </button>
+                <button class="btn btn-primary" id="action-whatsapp">
+                    <span class="material-icons-round">chat</span>
+                    WhatsApp
+                </button>
+                <button class="btn btn-primary" id="action-email">
+                    <span class="material-icons-round">mail</span>
+                    Email
+                </button>
+                <button class="btn btn-secondary" id="action-schedule-followup">
+                    <span class="material-icons-round">event</span>
+                    Schedule Follow-up
+                </button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="lead-tabs">
+                <button class="lead-tab active" data-tab="details">
+                    <span class="material-icons-round">info</span>
+                    Details
+                </button>
+                <button class="lead-tab" data-tab="activity">
+                    <span class="material-icons-round">history</span>
+                    Activity
+                </button>
+                <button class="lead-tab" data-tab="notes">
+                    <span class="material-icons-round">notes</span>
+                    Notes
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="lead-tab-content">
+                <!-- Details Tab -->
+                <div id="tab-details" class="tab-pane active">
+                    <div class="detail-grid">
+                        <div class="detail-section">
+                            <h3>Contact Information</h3>
+                            <div class="detail-row">
+                                <span class="detail-label">Full Name:</span>
+                                <span class="detail-value" id="detail-name">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Phone:</span>
+                                <span class="detail-value" id="detail-phone">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Email:</span>
+                                <span class="detail-value" id="detail-email">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Company:</span>
+                                <span class="detail-value" id="detail-company">--</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h3>Lead Information</h3>
+                            <div class="detail-row">
+                                <span class="detail-label">Source:</span>
+                                <span class="detail-value" id="detail-source">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value" id="detail-status">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Assigned To:</span>
+                                <span class="detail-value" id="detail-assigned">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Created:</span>
+                                <span class="detail-value" id="detail-created">--</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h3>Revenue & Budget</h3>
+                            <div class="detail-row">
+                                <span class="detail-label">Budget:</span>
+                                <span class="detail-value" id="detail-budget">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Property Type:</span>
+                                <span class="detail-value" id="detail-property">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value" id="detail-location">--</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section" style="grid-column: 1 / -1;">
+                            <h3>Notes</h3>
+                            <div class="detail-value" id="detail-notes">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div id="tab-activity" class="tab-pane">
+                    <div class="activity-timeline" id="lead-activity-timeline">
+                        <!-- Activity items will be populated here -->
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <div class="empty-state-title">No activity yet</div>
+                            <div class="empty-state-description">Activity will appear here as you interact with this
+                                lead</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes Tab -->
+                <div id="tab-notes" class="tab-pane">
+                    <div class="notes-section">
+                        <div class="notes-add">
+                            <textarea id="new-note-input" placeholder="Add a note..." rows="4"></textarea>
+                            <button class="btn btn-primary" id="add-note-btn">
+                                <span class="material-icons-round">add</span>
+                                Add Note
+                            </button>
+                        </div>
+                        <div class="notes-list" id="notes-list">
+                            <!-- Notes will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Follow-up Scheduler Modal (Phase 2) -->
+    <div id="followup-modal" class="modal-overlay">
+        <div class="modal glass-panel" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Schedule Follow-up</h2>
+                <button class="btn-icon close-modal">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            <form id="followup-form">
+                <div class="form-group">
+                    <label>Follow-up Date</label>
+                    <input type="date" name="followup-date" required />
+                </div>
+                <div class="form-group">
+                    <label>Follow-up Time</label>
+                    <input type="time" name="followup-time" required />
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select name="followup-type">
+                        <option value="call">Phone Call</option>
+                        <option value="email">Email</option>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="meeting">Meeting</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea name="followup-notes" rows="3" placeholder="What do you want to discuss?"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Schedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bulk Actions Bar -->
+    <div id="bulk-actions-bar" class="bulk-actions-bar">
+        <div class="bulk-actions-info">
+            <strong id="selected-count">0</strong> lead(s) selected
+        </div>
+        <div class="bulk-actions-buttons">
+            <button class="btn btn-secondary" id="bulk-assign">
+                <span class="material-icons-round">person_add</span>
+                Assign
+            </button>
+            <button class="btn btn-secondary" id="bulk-status">
+                <span class="material-icons-round">swap_horiz</span>
+                Change Status
+            </button>
+            <button class="btn btn-secondary" id="bulk-delete" style="color: var(--danger);">
+                <span class="material-icons-round">delete</span>
+                Delete
+            </button>
+            <button class="btn-icon" id="bulk-cancel">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Rule Modal -->
+    <div id="add-rule-modal" class="modal-overlay" style="display: none;">
+        <div class="modal glass-panel" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Create New Rule</h2>
+                <button class="btn-icon close-modal"><span class="material-icons-round">close</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="new-rule-form">
+                    <div class="form-group">
+                        <label>Rule Name</label>
+                        <input type="text" name="rule_name" required placeholder="e.g., VIP Follow-up">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Trigger</label>
+                            <select name="trigger" required>
+                                <option value="new_lead">New Lead Created</option>
+                                <option value="status_change">Status Changed</option>
+                                <option value="inactivity">Lead Inactive</option>
+                                <option value="source_match">Source Matches</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Condition</label>
+                            <input type="text" name="condition" placeholder="e.g., Budget > 50L">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Action</label>
+                        <select name="action" required>
+                            <option value="email">Send Email</option>
+                            <option value="whatsapp">Send WhatsApp</option>
+                            <option value="task">Create Task</option>
+                            <option value="assign">Assign User</option>
+                            <option value="alert">Alert Manager</option>
+                            <option value="cold">Mark as Cold</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Rule</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div id="import-modal" class="modal-overlay" style="display: none;">
+        <div class="modal glass-panel" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Bulk Import Leads</h2>
+                <button class="btn-icon close-modal"><span class="material-icons-round">close</span></button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📂</div>
+                    <p class="text-muted">Import leads from CSV file easily.</p>
+                </div>
+
+                <div class="import-step"
+                    style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span class="material-icons-round" style="color: var(--primary);">download</span>
+                        1. Download Template
+                    </h3>
+                    <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.8rem;">
+                        Use our standard format to avoid errors.
+                    </p>
+                    <button class="btn btn-secondary" id="btn-download-template" style="width: 100%;">
+                        Download CSV Format
+                    </button>
+                </div>
+
+                <div class="import-step" style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px;">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span class="material-icons-round" style="color: var(--primary);">upload_file</span>
+                        2. Upload File
+                    </h3>
+                    <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.8rem;">
+                        Select your filled CSV file.
+                    </p>
+                    <button class="btn btn-primary" id="btn-upload-trigger" style="width: 100%;">
+                        Select File & Import
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts (Supabase loaded in <head> for session guard — not duplicated here) -->
+    <script src="database.js"></script>
+    <script src="script-v2.js"></script>
+    <script src="script-phase2.js"></script>
+    <script src="script-enhancements.js"></script>
+</body>
+
+</html>

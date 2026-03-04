@@ -1,0 +1,119 @@
+<!-- Reports View -->
+<div id="view-analytics" class="view-section">
+    <!-- KPI Summary -->
+    <div class="kpi-grid" style="margin-bottom: 2rem;">
+        <div class="kpi-card glass-panel">
+            <div class="kpi-info">
+                <span class="label">Total Revenue</span>
+                <span class="value">₹3.5 Cr</span>
+                <span class="trend up">+15% vs last month</span>
+            </div>
+        </div>
+        <div class="kpi-card glass-panel">
+            <div class="kpi-info">
+                <span class="label">Total Commissions</span>
+                <span class="value">₹7,00,000</span>
+                <span class="trend up">Estimated</span>
+            </div>
+        </div>
+        <div class="kpi-card glass-panel">
+            <div class="kpi-info">
+                <span class="label">Deals Closed</span>
+                <span class="value">12</span>
+                <span class="trend up">2 this week</span>
+            </div>
+        </div>
+        <div class="kpi-card glass-panel">
+            <div class="kpi-info">
+                <span class="label">Avg. Deal Size</span>
+                <span class="value">₹28.5L</span>
+                <span class="trend down">-5% vs last month</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <!-- Revenue Chart Mockup -->
+        <div class="card glass-panel" style="grid-column: span 2;">
+            <div class="card-header">
+                <h3>Revenue Growth</h3>
+                <select class="select-input" style="width: auto;">
+                    <option>Last 6 Months</option>
+                    <option>This Year</option>
+                </select>
+            </div>
+            <div class="chart-container"
+                style="height: 300px; display: flex; align-items: flex-end; justify-content: space-between; padding: 20px; gap: 10px;">
+                <!-- CSS-only Bar Chart Mockup -->
+                <div
+                    style="width: 100%; height: 40%; background: rgba(99, 102, 241, 0.3); border-radius: 4px; position: relative;">
+                    <span
+                        style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #94a3b8;">May</span>
+                </div>
+                <div
+                    style="width: 100%; height: 55%; background: rgba(99, 102, 241, 0.4); border-radius: 4px; position: relative;">
+                    <span
+                        style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #94a3b8;">Jun</span>
+                </div>
+                <div
+                    style="width: 100%; height: 45%; background: rgba(99, 102, 241, 0.4); border-radius: 4px; position: relative;">
+                    <span
+                        style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #94a3b8;">Jul</span>
+                </div>
+                <div
+                    style="width: 100%; height: 70%; background: rgba(99, 102, 241, 0.5); border-radius: 4px; position: relative;">
+                    <span
+                        style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #94a3b8;">Aug</span>
+                </div>
+                <div
+                    style="width: 100%; height: 85%; background: rgba(99, 102, 241, 0.6); border-radius: 4px; position: relative;">
+                    <span
+                        style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #94a3b8;">Sep</span>
+                </div>
+                <div
+                    style="width: 100%; height: 100%; background: var(--primary); border-radius: 4px; position: relative; box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);">
+                    <span
+                        style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #fff; font-weight: bold;">Oct</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lead Source Breakdown -->
+        <div class="card glass-panel">
+            <div class="card-header">
+                <h3>Lead Sources</h3>
+            </div>
+            <div class="pipeline-bars" id="report-sources">
+                <!-- Populated by JS manually for demo -->
+                <div class="pipeline-item">
+                    <span class="pipeline-label">MagicBricks</span>
+                    <div class="pipeline-track">
+                        <div class="pipeline-fill" style="width: 85%; background: var(--accent);"></div>
+                    </div>
+                    <span class="pipeline-count">42%</span>
+                </div>
+                <div class="pipeline-item">
+                    <span class="pipeline-label">99Acres</span>
+                    <div class="pipeline-track">
+                        <div class="pipeline-fill" style="width: 65%; background: var(--primary);"></div>
+                    </div>
+                    <span class="pipeline-count">30%</span>
+                </div>
+                <div class="pipeline-item">
+                    <span class="pipeline-label">Referrals</span>
+                    <div class="pipeline-track">
+                        <div class="pipeline-fill" style="width: 45%; background: var(--success);"></div>
+                    </div>
+                    <span class="pipeline-count">18%</span>
+                </div>
+                <div class="pipeline-item">
+                    <span class="pipeline-label">Facebok Ads</span>
+                    <div class="pipeline-track">
+                        <div class="pipeline-fill" style="width: 25%; background: var(--warning);"></div>
+                    </div>
+                    <span class="pipeline-count">10%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

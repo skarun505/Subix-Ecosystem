@@ -1,0 +1,128 @@
+<!-- Automation View -->
+<div id="view-automation" class="view-section">
+    <!-- Automation Header -->
+    <div class="card-header" style="margin-bottom: 2rem;">
+        <div>
+            <h2>Automation Rules</h2>
+            <p class="text-muted">Set up logic to automate your real estate workflow.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-add-rule">
+            <span class="material-icons-round">add</span>
+            New Rule
+        </button>
+    </div>
+
+    <!-- Automation Cards -->
+    <div class="automation-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+
+        <!-- Rule 1: Welcome Email -->
+        <div class="card glass-panel" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div class="icon-box bg-purple"
+                    style="padding: 10px; border-radius: 8px; background: rgba(99, 102, 241, 0.2); color: #818cf8;">
+                    <span class="material-icons-round">email</span>
+                </div>
+                <div class="toggle-switch input-switch">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <h3 style="margin-bottom: 0.5rem;">Instant Welcome Email</h3>
+            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                When a new <strong>Inquiry</strong> comes from <strong>Any Source</strong>, send "Welcome Kit" email
+                template.
+            </p>
+            <div style="display: flex; gap: 0.5rem;">
+                <span class="status-badge" style="background: rgba(255,255,255,0.1);">Lead Created</span>
+                <span class="material-icons-round"
+                    style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                <span class="status-badge" style="background: rgba(255,255,255,0.1);">Send Gmail</span>
+            </div>
+        </div>
+
+        <!-- Rule 2: Follow-up Task -->
+        <div class="card glass-panel" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div class="icon-box bg-orange"
+                    style="padding: 10px; border-radius: 8px; background: rgba(245, 158, 11, 0.2); color: #fbbf24;">
+                    <span class="material-icons-round">task_alt</span>
+                </div>
+                <div class="toggle-switch">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <h3 style="margin-bottom: 0.5rem;">Schedule Viewing Follow-up</h3>
+            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                When status changes to <strong>Viewing Completed</strong>, create a task "Call for Feedback" due in
+                <strong>24 Hours</strong>.
+            </p>
+            <div style="display: flex; gap: 0.5rem;">
+                <span class="status-badge" style="background: rgba(255,255,255,0.1);">Status Change</span>
+                <span class="material-icons-round"
+                    style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                <span class="status-badge" style="background: rgba(255,255,255,0.1);">Add Task</span>
+            </div>
+        </div>
+
+        <!-- Rule 3: High Value Alert -->
+        <div class="card glass-panel" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div class="icon-box bg-red"
+                    style="padding: 10px; border-radius: 8px; background: rgba(239, 68, 68, 0.2); color: #f87171;">
+                    <span class="material-icons-round">notifications_active</span>
+                </div>
+                <div class="toggle-switch">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <h3 style="margin-bottom: 0.5rem;">High Value Alert</h3>
+            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                When <strong>Budget</strong> is greater than <strong>₹5 Cr</strong>, send WhatsApp notification to
+                <strong>Sales Manager</strong>.
+            </p>
+            <div style="display: flex; gap: 0.5rem;">
+                <span class="status-badge" style="background: rgba(255,255,255,0.1);">Check Value</span>
+                <span class="material-icons-round"
+                    style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                <span class="status-badge" style="background: rgba(255,255,255,0.1);">Notify</span>
+            </div>
+        </div>
+
+        <!-- Rule 4: Stale Lead Re-engagement -->
+        <div class="card glass-panel" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div class="icon-box bg-blue"
+                    style="padding: 10px; border-radius: 8px; background: rgba(59, 130, 246, 0.2); color: #60a5fa;">
+                    <span class="material-icons-round">history</span>
+                </div>
+                <div class="toggle-switch">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <h3 style="margin-bottom: 0.5rem;">Stale Lead Re-engagement</h3>
+            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                If no activity for <strong>14 Days</strong> on status <strong>Inquiry</strong>, change status to
+                <strong>Cold</strong>.
+            </p>
+            <div style="display: flex; gap: 0.5rem;">
+                <span class="status-badge" style="background: rgba(255,255,255,0.1);">Time Trigger</span>
+                <span class="material-icons-round"
+                    style="font-size: 1rem; color: var(--text-muted); align-self: center;">arrow_forward</span>
+                <span class="status-badge" style="background: rgba(255,255,255,0.1);">Update Status</span>
+            </div>
+        </div>
+
+    </div>
+</div>

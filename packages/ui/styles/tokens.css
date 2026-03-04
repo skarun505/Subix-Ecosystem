@@ -1,0 +1,89 @@
+/**
+ * Subix Design Tokens
+ * ===================
+ * Shared CSS custom properties used across all Subix products.
+ * Import this file in any HTML page to get consistent styling.
+ * 
+ * Usage: <link rel="stylesheet" href="../../packages/ui/styles/tokens.css">
+ */
+
+:root {
+    /* ─── Brand Colors ─────────────────────────────────── */
+    --subix-primary: #6C63FF;
+    --subix-primary-dark: #5A52D5;
+    --subix-primary-light: #8B83FF;
+    --subix-primary-alpha: rgba(108, 99, 255, 0.15);
+
+    --subix-secondary: #00D9A6;
+    --subix-secondary-dark: #00B88C;
+    --subix-secondary-light: #33E4BC;
+
+    --subix-accent: #FF6B6B;
+    --subix-accent-dark: #E55A5A;
+
+    /* ─── Neutral / Background ──────────────────────────── */
+    --subix-bg-primary: #0F0F1A;
+    --subix-bg-secondary: #1A1A2E;
+    --subix-bg-card: #16213E;
+    --subix-bg-elevated: #1E2A4A;
+    --subix-bg-surface: rgba(255, 255, 255, 0.05);
+
+    /* ─── Text ──────────────────────────────────────────── */
+    --subix-text-primary: #FFFFFF;
+    --subix-text-secondary: #B0B0C8;
+    --subix-text-muted: #6B6B8D;
+    --subix-text-link: var(--subix-primary);
+
+    /* ─── Status Colors ─────────────────────────────────── */
+    --subix-success: #10B981;
+    --subix-warning: #F59E0B;
+    --subix-error: #EF4444;
+    --subix-info: #3B82F6;
+
+    /* ─── Typography ────────────────────────────────────── */
+    --subix-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --subix-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    --subix-font-xs: 0.75rem;
+    --subix-font-sm: 0.875rem;
+    --subix-font-base: 1rem;
+    --subix-font-lg: 1.125rem;
+    --subix-font-xl: 1.25rem;
+    --subix-font-2xl: 1.5rem;
+    --subix-font-3xl: 2rem;
+    --subix-font-4xl: 2.5rem;
+
+    /* ─── Spacing ───────────────────────────────────────── */
+    --subix-space-xs: 0.25rem;
+    --subix-space-sm: 0.5rem;
+    --subix-space-md: 1rem;
+    --subix-space-lg: 1.5rem;
+    --subix-space-xl: 2rem;
+    --subix-space-2xl: 3rem;
+    --subix-space-3xl: 4rem;
+
+    /* ─── Border Radius ─────────────────────────────────── */
+    --subix-radius-sm: 6px;
+    --subix-radius-md: 10px;
+    --subix-radius-lg: 16px;
+    --subix-radius-xl: 24px;
+    --subix-radius-full: 50%;
+
+    /* ─── Shadows ───────────────────────────────────────── */
+    --subix-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --subix-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --subix-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --subix-shadow-glow: 0 0 20px rgba(108, 99, 255, 0.3);
+
+    /* ─── Transitions ──────────────────────────────────── */
+    --subix-transition-fast: 150ms ease;
+    --subix-transition-base: 250ms ease;
+    --subix-transition-slow: 400ms ease;
+
+    /* ─── Z-index Scale ─────────────────────────────────── */
+    --subix-z-dropdown: 100;
+    --subix-z-sticky: 200;
+    --subix-z-overlay: 300;
+    --subix-z-modal: 400;
+    --subix-z-toast: 500;
+}

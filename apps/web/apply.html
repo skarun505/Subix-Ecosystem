@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Now - Subix Careers</title>
+    <meta name="description"
+        content="Apply to join the Subix team. Growth Engineers, Automation Specialists, and more.">
+    <link rel="canonical" href="https://subix.in/apply">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://subix.in/apply">
+    <meta property="og:title" content="Apply Now - Subix Careers">
+    <meta property="og:description"
+        content="Apply to join the Subix team. Growth Engineers, Automation Specialists, and more.">
+    <meta property="og:image" content="https://subix.in/assets/social-preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://subix.in/apply">
+    <meta property="twitter:title" content="Apply Now - Subix Careers">
+    <meta property="twitter:description"
+        content="Apply to join the Subix team. Growth Engineers, Automation Specialists, and more.">
+    <meta property="twitter:image" content="https://subix.in/assets/social-preview.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="Subix PNG.png">
+</head>
+
+<body>
+
+    <!-- Nav -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="Subix PNG.png" alt="Subix Logo">
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="products">Products</a></li>
+            <li><a href="services">The Stack</a></li>
+            <li><a href="platform">LeadOS</a></li>
+            <li><a href="about">Manifesto</a></li>
+            <li><a href="careers">Join Us</a></li>
+        </ul>
+        <!-- Right slot: Sign In CTA (replaced by profile widget when logged in) -->
+        <div class="nav-cta-slot">
+            <a href="login" class="cta-btn">Sign In</a>
+        </div>
+        <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+    <div class="nav-links mobile-menu" id="mobileMenu"></div>
+
+    <!-- Application Form Section -->
+    <section class="contact" style="padding-top: 8rem; min-height: 100vh;">
+        <div class="container" style="max-width: 800px;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1 style="font-size: 3rem; margin-bottom: 1rem;">Apply to <span class="highlight">Build</span></h1>
+                <p style="color: #ccc;">Show us what you've built. GitHub links > Resumes.</p>
+            </div>
+
+            <div class="contact-form-wrapper reveal-zoom"
+                style="background: var(--surface-color); padding: 3rem; border-radius: 16px; border: 1px solid var(--border-color);">
+                <form id="applicationForm">
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="name"
+                            style="display: block; margin-bottom: 0.5rem; font-family: var(--font-heading);">Full
+                            Name</label>
+                        <input type="text" id="name" name="name" required
+                            style="width: 100%; padding: 1rem; background: #0a0a0a; border: 1px solid #333; color: #fff; border-radius: 8px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="email"
+                            style="display: block; margin-bottom: 0.5rem; font-family: var(--font-heading);">Email
+                            Address</label>
+                        <input type="email" id="email" name="email" required
+                            style="width: 100%; padding: 1rem; background: #0a0a0a; border: 1px solid #333; color: #fff; border-radius: 8px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="role"
+                            style="display: block; margin-bottom: 0.5rem; font-family: var(--font-heading);">Role
+                            Applying
+                            For</label>
+                        <select id="role" name="role" required
+                            style="width: 100%; padding: 1rem; background: #0a0a0a; border: 1px solid #333; color: #fff; border-radius: 8px;">
+                            <option value="" disabled selected>Select a role...</option>
+                            <option value="Senior Growth Engineer">Senior Growth Engineer</option>
+                            <option value="Automation Specialist">Automation Specialist</option>
+                            <option value="Digital Content Strategist">Digital Content Strategist</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="portfolio"
+                            style="display: block; margin-bottom: 0.5rem; font-family: var(--font-heading);">Portfolio /
+                            GitHub / LinkedIn</label>
+                        <input type="url" id="portfolio" name="portfolio" placeholder="https://" required
+                            style="width: 100%; padding: 1rem; background: #0a0a0a; border: 1px solid #333; color: #fff; border-radius: 8px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 2rem;">
+                        <label for="why"
+                            style="display: block; margin-bottom: 0.5rem; font-family: var(--font-heading);">Why
+                            Subix?</label>
+                        <textarea id="why" name="why" rows="4" required
+                            placeholder="Tell us about the hardest thing you've ever built."
+                            style="width: 100%; padding: 1rem; background: #0a0a0a; border: 1px solid #333; color: #fff; border-radius: 8px; resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Submit
+                        Application</button>
+                    <p style="margin-top: 1.5rem; font-size: 0.8rem; color: #444; text-align: center;">
+                        Submitting an application confirms you agree to our <a href="terms"
+                            style="text-decoration: underline;">Terms</a> & <a href="privacy"
+                            style="text-decoration: underline;">Privacy Policy</a>.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <img src="Subix PNG.png" alt="Subix Logo">
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Building the future of automated business.<br>
+                    © 2026 Subix Inc.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="products">Products</a></li>
+                    <li><a href="services">Services</a></li>
+                    <li><a href="platform">LeadOS</a></li>
+                    <li><a href="about">Why Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy">Privacy Policy</a></li>
+                    <li><a href="terms">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://twitter.com" target="_blank">Twitter / X</a></li>
+                    <li><a href="https://www.linkedin.com/company/subix/about/" target="_blank">LinkedIn</a></li>
+                    <li><a href="mailto:contact@subix.in">contact@subix.in</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('applicationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            // In a real app, this would send data to a backend
+            const btn = this.querySelector('button');
+            const originalText = btn.innerHTML;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            btn.style.opacity = '0.7';
+
+            setTimeout(() => {
+                alert('Application received! We will review your code and get back to you.');
+                this.reset();
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>

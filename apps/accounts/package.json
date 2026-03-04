@@ -1,0 +1,19 @@
+{
+    "name": "@subix/accounts",
+    "version": "1.0.0",
+    "private": true,
+    "description": "accounts.subix.in — Login, Signup & Password Reset",
+    "scripts": {
+        "dev": "serve . -l 3001",
+        "build": "echo 'Static site — no build needed'",
+        "clean": "echo 'Nothing to clean'"
+    },
+    "devDependencies": {
+        "serve": "^14.2.0"
+    },
+    "dependencies": {
+        "@subix/config": "workspace:*",
+        "@subix/auth": "workspace:*",
+        "@subix/ui": "workspace:*"
+    }
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management: Care OS - Subix</title>
+    <meta name="description"
+        content="Subix HMIS: Integrated hospital management software for clinics and multi-specialty hospitals. Patient records, pharmacy, and OPD management.">
+    <link rel="canonical" href="https://subix.in/hospital">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="Subix PNG.png">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="Subix PNG.png" alt="Subix Logo">
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="products">Products</a></li>
+            <li><a href="services">The Stack</a></li>
+            <li><a href="platform">LeadOS</a></li>
+            <li><a href="about">Manifesto</a></li>
+            <li><a href="careers">Join Us</a></li>
+        </ul>
+        <!-- Right slot: Sign In CTA (replaced by profile widget when logged in) -->
+        <div class="nav-cta-slot">
+            <a href="login" class="cta-btn">Sign In</a>
+        </div>
+        <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+    <div class="nav-links mobile-menu" id="mobileMenu"></div>
+
+    <header class="hero" style="min-height: 80vh; padding-bottom: 2rem; padding-top: 10rem;">
+        <div class="container" style="text-align: center;">
+            <div class="hero-tag"><span>●</span> CARE OS</div>
+            <h1>Subix <span class="highlight">Health</span></h1>
+            <h2 style="font-size: 2rem; margin-bottom: 1.5rem; opacity: 0.9;">Patient-First Management.</h2>
+            <p style="margin: 0 auto; max-width: 800px; font-size: 1.2rem;">
+                Unified HMIS for modern healthcare. Manage OPD, IPD, Pharmacy, and Labs from a single, secure dashboard.
+            </p>
+
+            <div class="dashboard-mockup reveal-zoom"
+                style="margin-top: 4rem; overflow: hidden; border-radius: 16px; border: 1px solid #333; position: relative; background: #0f0f0f;">
+                <div
+                    style="padding: 1rem; border-bottom: 1px solid #222; display: flex; gap: 1rem; background: #161616;">
+                    <div style="width: 12px; height: 12px; background: #fe5f57; border-radius: 50%;"></div>
+                    <div style="width: 12px; height: 12px; background: #febc2e; border-radius: 50%;"></div>
+                    <div style="width: 12px; height: 12px; background: #28c840; border-radius: 50%;"></div>
+                    <span style="font-size: 0.7rem; color: #444; margin-left: auto;">health.subix.in</span>
+                </div>
+                <div class="mockup-content"
+                    style="padding: 2rem; display: grid; grid-template-columns: 200px 1fr; gap: 2rem; min-height: 450px; text-align: left;">
+                    <div class="sidebar" style="background: #111; border-radius: 8px; padding: 1rem;">
+                        <div
+                            style="height: 20px; width: 80%; background: #222; border-radius: 4px; margin-bottom: 2rem; border-left: 2px solid #00d2ff;">
+                        </div>
+                        <div
+                            style="height: 10px; width: 100%; background: #1a1a1a; border-radius: 4px; margin-bottom: 1rem;">
+                        </div>
+                        <div
+                            style="height: 10px; width: 100%; background: #1a1a1a; border-radius: 4px; margin-bottom: 1rem;">
+                        </div>
+                        <div style="margin-top: auto; height: 30px; background: #222; border-radius: 4px;"></div>
+                    </div>
+                    <div class="main-view">
+                        <div class="stats-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                            <div
+                                style="background: #1a1a1a; border-radius: 8px; padding: 1.5rem; border: 1px solid #333;">
+                                <div style="font-size: 0.8rem; color: #666; text-transform: uppercase;">Admitted
+                                </div>
+                                <div style="font-size: 2rem; font-weight: bold; color: #fff;">142</div>
+                            </div>
+                            <div
+                                style="background: #1a1a1a; border-radius: 8px; padding: 1.5rem; border: 1px solid #333;">
+                                <div style="font-size: 0.8rem; color: #666; text-transform: uppercase;">OPD Today
+                                </div>
+                                <div style="font-size: 2rem; font-weight: bold; color: #00d2ff;">86</div>
+                            </div>
+                            <div
+                                style="background: #1a1a1a; border-radius: 8px; padding: 1.5rem; border: 1px solid #333;">
+                                <div style="font-size: 0.8rem; color: #666; text-transform: uppercase;">Critical
+                                </div>
+                                <div style="font-size: 2rem; font-weight: bold; color: #ff4444;">4</div>
+                            </div>
+                        </div>
+                        <div class="chart-container"
+                            style="margin-top: 2rem; background: #141414; height: 200px; border-radius: 12px; border: 1px solid #222; position: relative; padding: 1rem;">
+                            <p style="font-size: 0.8rem; color: #444;">PATIENT FLOW</p>
+                            <svg width="100%" height="80%" viewBox="0 0 500 150" style="margin-top: 1rem;">
+                                <path d="M0,80 L50,70 L100,75 L150,50 L200,60 L250,40 L300,50 L350,30 L400,20 L500,10"
+                                    fill="none" stroke="#00d2ff" stroke-width="4" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="features" style="padding: 10rem 0;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 5rem;">Clinical <span class="highlight">Capabilities</span>
+            </h2>
+            <div class="grid-2" style="gap: 2rem;">
+                <div class="card reveal-left">
+                    <i class="fas fa-notes-medical card-icon"></i>
+                    <h3>Digital Records (EMR)</h3>
+                    <p>Access patient history, prescriptions, and lab reports instantly. 100% Paperless.</p>
+                </div>
+                <div class="card reveal-right">
+                    <i class="fas fa-pills card-icon"></i>
+                    <h3>Pharmacy POS</h3>
+                    <p>Real-time inventory tracking, expiration alerts, and automated reordering.</p>
+                </div>
+                <div class="card reveal-left">
+                    <i class="fas fa-flask card-icon"></i>
+                    <h3>Lab Management</h3>
+                    <p>Barcoded sample tracking with auto-generated reports emailed to patients.</p>
+                </div>
+                <div class="card reveal-right">
+                    <i class="fas fa-bed card-icon"></i>
+                    <h3>Ward Management</h3>
+                    <p>Live bed availability status and streamlined discharge summaries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-demo"
+        style="padding: 6rem 0; background: var(--surface-color); border-top: 1px solid var(--primary-lime);">
+        <div class="container" style="text-align: center;">
+            <h2 style="font-size: 3.5rem; margin-bottom: 2rem;">Modernize <span class="highlight">Healthcare?</span>
+            </h2>
+            <p style="font-size: 1.2rem; color: #ccc; max-width: 600px; margin: 0 auto 3rem;">
+                Better systems mean better care. Deploy Subix Health today.
+            </p>
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                <a href="contact" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">Book
+                    Consultation &rarr;</a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: #444; text-align: center;">
+                Subject to our <a href="terms" style="text-decoration: underline;">Terms</a> & <a href="privacy"
+                    style="text-decoration: underline;">Privacy Policy</a>.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <img src="Subix PNG.png" alt="Subix Logo">
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Building the future of automated business.<br>
+                    © 2026 Subix Inc.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="products">Products</a></li>
+                    <li><a href="services">Services</a></li>
+                    <li><a href="platform">LeadOS</a></li>
+                    <li><a href="about">Why Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy">Privacy Policy</a></li>
+                    <li><a href="terms">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://twitter.com" target="_blank">Twitter / X</a></li>
+                    <li><a href="https://www.linkedin.com/company/subix/about/" target="_blank">LinkedIn</a></li>
+                    <li><a href="mailto:contact@subix.in">contact@subix.in</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

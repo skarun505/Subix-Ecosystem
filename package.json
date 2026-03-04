@@ -1,0 +1,25 @@
+{
+  "name": "subix",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Subix Ecosystem — Monorepo for all Subix products",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "clean": "turbo clean",
+    "dev:web": "turbo dev --filter=@subix/web",
+    "dev:accounts": "turbo dev --filter=@subix/accounts",
+    "dev:leados": "turbo dev --filter=@subix/leados",
+    "dev:hrms": "turbo dev --filter=@subix/hrms",
+    "build:web": "turbo build --filter=@subix/web",
+    "build:accounts": "turbo build --filter=@subix/accounts",
+    "build:leados": "turbo build --filter=@subix/leados",
+    "build:hrms": "turbo build --filter=@subix/hrms"
+  },
+  "devDependencies": {
+    "serve": "^14.2.6",
+    "turbo": "^2.0.0"
+  },
+  "packageManager": "pnpm@9.0.0"
+}
