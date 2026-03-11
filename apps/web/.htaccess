@@ -8,17 +8,20 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# 3. Handle specific path: Map /services/something -> /_services/something.html
+# 3. Handle specific path: Map /services and /services/ directly to services.html
+RewriteRule ^services/?$ /services.html [L]
+
+# 4. Handle specific path: Map /services/something -> /_services/something.html
 RewriteRule ^services/(.+)$ /_services/$1.html [L]
 
-# 4. Strip .html from the end of URLs (External Redirect for SEO)
+# 5. Strip .html from the end of URLs (External Redirect for SEO)
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.html [NC]
 RewriteRule ^ %1 [R=301,L]
 
-# 5. Internally forward /file to /file.html 
+# 6. Internally forward /file to /file.html 
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html [L,QSA]
 
-# 6. Internally forward /dir to /dir/index.html 
+# 7. Internally forward /dir to /dir/index.html 
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.*)$ $1/index.html [L,QSA]
