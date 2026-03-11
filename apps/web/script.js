@@ -89,18 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const answer = item.querySelector('.faq-answer');
 
         if (question && answer) {
-            question.addEventListener('click', () => {
-                // Check if currently active
+            // Add click listener
+            question.addEventListener('click', (e) => {
+                
                 const isActive = item.classList.contains('active');
 
-                // Close all other items
+                // Close all other items first
                 faqItems.forEach(otherItem => {
                     otherItem.classList.remove('active');
                     const otherAnswer = otherItem.querySelector('.faq-answer');
                     if (otherAnswer) otherAnswer.style.maxHeight = null;
                 });
 
-                // Toggle current item
+                // Toggle current item based on state BEFORE the close loop
                 if (!isActive) {
                     item.classList.add('active');
                     answer.style.maxHeight = answer.scrollHeight + "px";
@@ -130,249 +131,130 @@ if (window.location.hash.includes("access_token") || window.location.hash.includ
     }
 }
 
-const rawSession = localStorage.getItem(AUTH_KEY);
+// --- Global Auth Profile & Modals (Subix SSO) ---
+(async () => {
+    const _SB_URL = window.SubixConfig.supabaseUrl;
+    const _SB_KEY = window.SubixConfig.supabaseKey;
+    if (!window.supabase || !_SB_URL) return;
 
-if (rawSession) {
-    try {
-        const sessionData = JSON.parse(rawSession);
-        const user = sessionData.user;
+    const sb = window.supabase.createClient(_SB_URL, _SB_KEY);
+
+    // Bounce hash tokens to login for parsing if necessary (viva handoff legacy)
+    if (window.location.hash.includes("access_token")) {
+        // Supabase will handle parsing this if we are on the right domain, 
+        // but for now let's just let it be or clean it
+    }
+
+    // SSO Check: Wait up to 3s for session from cookie
+    let session = null;
+    const startTime = Date.now();
+    while (Date.now() - startTime < 3000) {
+        const { data } = await sb.auth.getSession();
+        if (data.session) {
+            session = data.session;
+            break;
+        }
+        await new Promise(r => setTimeout(r, 500));
+    }
+
+    if (session) {
+        const user = session.user;
         const meta = user.user_metadata || {};
         const email = user.email;
         const name = meta.full_name || meta.name || email.split('@')[0];
         const displayChar = name.charAt(0).toUpperCase();
 
-        // Find the "Sign In" link in desktop and mobile nav and replace it
-        const signInLinks = document.querySelectorAll('a[href="login"]');
+        // Render Profile Widget
+        const signInLinks = document.querySelectorAll('a[href="login"], .cta-btn[href="login"]');
         signInLinks.forEach(link => {
-            const li = link.parentElement;
-
-            // Construct the Gen Z style profile widget
-            li.style.position = 'relative';
-            li.innerHTML = `
-                    <div class="profile-widget" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem; background: var(--bg-card, #111); padding: 0.5rem 1rem; border-radius: 50px; border: 1px solid var(--border-color, #333); transition: background 0.2s;">
-                        <div style="width: 30px; height: 30px; background: var(--primary-lime, #ccff00); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;">
+            const container = link.parentElement;
+            container.style.position = 'relative';
+            container.innerHTML = `
+                <div class="profile-widget" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem; background: #111; padding: 0.5rem 1rem; border-radius: 50px; border: 1px solid #333; transition: background 0.2s;">
+                    <div style="width: 30px; height: 30px; background: #ccff00; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;">
+                        ${displayChar}
+                    </div>
+                    <span style="font-weight: 500; font-size: 0.9rem; color: #fff;">${name}</span>
+                    <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px; color: #888;"></i>
+                </div>
+                <div class="profile-dropdown" style="display: none; position: absolute; top: calc(100% + 10px); right: 0; background: #0a0a0a; border: 1px solid #333; border-radius: 12px; padding: 1rem; width: max-content; min-width: 250px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 9999; text-align: left;">
+                    <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; background: #ccff00; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">
                             ${displayChar}
                         </div>
-                        <span style="font-weight: 500; font-size: 0.9rem; color: #fff;">${name}</span>
-                        <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px; color: #888;"></i>
-                    </div>
-                    <div class="profile-dropdown" style="display: none; position: absolute; top: calc(100% + 10px); right: 0; background: #0a0a0a; border: 1px solid #333; border-radius: 12px; padding: 1rem; width: max-content; min-width: 250px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 9999; text-align: left;">
-                        <!-- Transparent hover bridge -->
-                        <div style="position: absolute; top: -15px; left: 0; right: 0; height: 15px; background: transparent;"></div>
-                        <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 40px; height: 40px; background: var(--primary-lime, #ccff00); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">
-                                ${displayChar}
-                            </div>
-                            <div>
-                                <p style="margin: 0; font-weight: 600; font-size: 1rem; color: #fff;">${name}</p>
-                                <p style="margin: 0; font-size: 0.8rem; color: #888;">${email}</p>
-                            </div>
+                        <div>
+                            <p style="margin: 0; font-weight: 600; font-size: 1rem; color: #fff;">${name}</p>
+                            <p style="margin: 0; font-size: 0.8rem; color: #888;">${email}</p>
                         </div>
-                        <div style="border-top: 1px solid #222; margin: 1rem 0;"></div>
-                        <a href="javascript:void(0)" class="edit-btn" style="display: block; padding: 0.5rem; color: #ddd; text-decoration: none; border-radius: 6px; transition: background 0.2s; font-size: 0.9rem;" onmouseover="this.style.background='#111'" onmouseout="this.style.background='transparent'">
-                            <i class="fas fa-user-edit" style="width: 20px;"></i> Edit Details
-                        </a>
-                        <button class="logout-btn" style="width: 100%; text-align: left; background: transparent; border: none; padding: 0.5rem; color: #ff5555; cursor: pointer; border-radius: 6px; transition: background 0.2s; font-size: 0.9rem; margin-top: 0.5rem; font-family: inherit;" onmouseover="this.style.background='#220000'" onmouseout="this.style.background='transparent'">
-                            <i class="fas fa-sign-out-alt" style="width: 20px;"></i> Logout
-                        </button>
                     </div>
-                `;
+                    <div style="border-top: 1px solid #222; margin: 1rem 0;"></div>
+                    <a href="https://accounts.subix.in" style="display: block; padding: 0.5rem; color: #ddd; text-decoration: none; border-radius: 6px; font-size: 0.9rem;">
+                        <i class="fas fa-user-circle" style="width: 20px;"></i> Manage Account
+                    </a>
+                    <button class="logout-btn" style="width: 100%; text-align: left; background: transparent; border: none; padding: 0.5rem; color: #ff5555; cursor: pointer; border-radius: 6px; font-size: 0.9rem; margin-top: 0.5rem;">
+                        <i class="fas fa-sign-out-alt" style="width: 20px;"></i> Logout
+                    </button>
+                </div>
+            `;
 
-            const widget = li.querySelector('.profile-widget');
-            const dropdown = li.querySelector('.profile-dropdown');
-            const logoutBtn = li.querySelector('.logout-btn');
-            const editBtn = li.querySelector('.edit-btn');
+            const widget = container.querySelector('.profile-widget');
+            const dropdown = container.querySelector('.profile-dropdown');
+            const logoutBtn = container.querySelector('.logout-btn');
 
             let timeout;
-            li.addEventListener('mouseenter', () => {
+            container.addEventListener('mouseenter', () => {
                 clearTimeout(timeout);
-                widget.style.background = '#222';
                 dropdown.style.display = 'block';
             });
-            li.addEventListener('mouseleave', () => {
+            container.addEventListener('mouseleave', () => {
                 timeout = setTimeout(() => {
-                    widget.style.background = '#111';
                     dropdown.style.display = 'none';
                 }, 300);
             });
 
-            editBtn.addEventListener('click', () => {
-                dropdown.style.display = 'none';
-
-                if (document.getElementById('subix-edit-modal')) return;
-
-                const editModalHtml = `
-                    <div id="subix-edit-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 100000; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;">
-                        <div style="background: #0a0a0a; border: 1px solid #333; border-radius: 20px; padding: 2.5rem; max-width: 400px; width: 90%; text-align: left; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: translateY(20px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                                <h3 style="margin: 0; font-size: 1.5rem; color: #fff; font-family: 'Space Grotesk', sans-serif;">Edit Profile</h3>
-                                <button id="close-edit-modal" style="background: transparent; border: none; color: #888; cursor: pointer; font-size: 1.5rem; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">&times;</button>
-                            </div>
-                            <div style="margin-bottom: 2rem;">
-                                <label style="display: block; color: #aaa; margin-bottom: 0.5rem; font-size: 0.9rem;">Display Name</label>
-                                <input type="text" id="edit-name-input" value="${name}" style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid #333; background: #111; color: #fff; outline: none; font-family: 'Inter', sans-serif; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--primary-lime, #ccff00)'" onblur="this.style.borderColor='#333'">
-                                
-                                <label style="display: block; color: #aaa; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 0.9rem;">Mobile Number</label>
-                                <input type="tel" id="edit-phone-input" value="${meta.phone || ''}" placeholder="+91 9876543210" style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid #333; background: #111; color: #fff; outline: none; font-family: 'Inter', sans-serif; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--primary-lime, #ccff00)'" onblur="this.style.borderColor='#333'">
-                                
-                                <label style="display: block; color: #aaa; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 0.9rem;">Organization / Company</label>
-                                <input type="text" id="edit-org-input" value="${meta.organization || ''}" placeholder="E.g. Subix Inc." style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid #333; background: #111; color: #fff; outline: none; font-family: 'Inter', sans-serif; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--primary-lime, #ccff00)'" onblur="this.style.borderColor='#333'">
-                            </div>
-                            <button id="save-edit-btn" style="width: 100%; background: var(--primary-lime, #ccff00); color: #000; border: none; padding: 1rem; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                document.body.insertAdjacentHTML('beforeend', editModalHtml);
-                const modal = document.getElementById('subix-edit-modal');
-                const closeBtn = document.getElementById('close-edit-modal');
-                const saveBtn = document.getElementById('save-edit-btn');
-                const nameInput = document.getElementById('edit-name-input');
-                const phoneInput = document.getElementById('edit-phone-input');
-                const orgInput = document.getElementById('edit-org-input');
-
-                // Animate In
-                setTimeout(() => {
-                    modal.style.opacity = '1';
-                    modal.querySelector('div').style.transform = 'translateY(0)';
-                }, 10);
-
-                const closeModal = () => {
-                    modal.style.opacity = '0';
-                    modal.querySelector('div').style.transform = 'translateY(20px)';
-                    setTimeout(() => modal.remove(), 400);
-                };
-
-                closeBtn.addEventListener('click', closeModal);
-
-                saveBtn.addEventListener('click', async () => {
-                    const newName = nameInput.value.trim();
-                    if (!newName) return;
-
-                    saveBtn.textContent = 'Saving...';
-                    saveBtn.style.opacity = '0.7';
-                    saveBtn.disabled = true;
-
-                    try {
-                        const SUPABASE_URL = window.SubixConfig.supabaseUrl;
-                        // Using the global Supabase anon key here 
-                        const ANON_KEY = window.SubixConfig.supabaseKey;
-
-                        const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + sessionData.access_token,
-                                'apikey': ANON_KEY
-                            },
-                            body: JSON.stringify({
-                                data: {
-                                    full_name: newName,
-                                    name: newName,
-                                    phone: phoneInput.value.trim(),
-                                    organization: orgInput.value.trim()
-                                }
-                            })
-                        });
-
-                        if (res.ok) {
-                            const updatedUser = await res.json();
-
-                            // Update local storage directly
-                            const currentSession = JSON.parse(localStorage.getItem(AUTH_KEY));
-                            currentSession.user = updatedUser;
-                            localStorage.setItem(AUTH_KEY, JSON.stringify(currentSession));
-
-                            saveBtn.textContent = 'Saved Successfully!';
-                            setTimeout(() => window.location.reload(), 600);
-                        } else {
-                            throw new Error('Update failed');
-                        }
-                    } catch (e) {
-                        saveBtn.textContent = 'Failed to save';
-                        setTimeout(() => {
-                            saveBtn.textContent = 'Save Changes';
-                            saveBtn.style.opacity = '1';
-                            saveBtn.disabled = false;
-                        }, 2000);
-                    }
-                });
-            });
-
-            logoutBtn.addEventListener('click', () => {
-                localStorage.removeItem(AUTH_KEY);
-                window.location.reload();
+            logoutBtn.addEventListener('click', async () => {
+                await sb.auth.signOut();
+                window.location.replace('https://accounts.subix.in?logout=true');
             });
         });
 
-        // GenZ Welcome Popup Logic
+        // Welcome Popup
         if (!localStorage.getItem('subix_welcome_shown')) {
             localStorage.setItem('subix_welcome_shown', 'true');
-
-            // Inject GenZ Welcome Modal
             const modalHtml = `
                     <div id="subix-genz-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 100000; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;">
                         <div style="background: #0a0a0a; border: 1px solid #333; border-radius: 20px; padding: 3rem; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: translateY(20px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
                             <div style="font-size: 4rem; margin-bottom: 1rem;">🔥</div>
-                            <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; margin-bottom: 1rem; color: #fff;">Vibe Check: <span style="color: var(--primary-lime, #ccff00);">Passed.</span></h2>
+                            <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; margin-bottom: 1rem; color: #fff;">Vibe Check: <span style="color: #ccff00;">Passed.</span></h2>
                             <p style="color: #aaa; margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6;">
                                 Absolute W! Thank you for registering. You now have the ultimate access key to pull up on <strong>all our products</strong>! Welcome to the Subix ecosystem. 🚀 
                             </p>
-                            
-                            <h4 style="color: #fff; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; color: var(--primary-lime, #ccff00);">Recommended Drops:</h4>
-                            
                             <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-                                <a href="https://leados.subix.in" style="background: #111; border: 1px solid #222; padding: 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: #fff; transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary-lime, #ccff00)'; this.style.transform='translateX(5px)'" onmouseout="this.style.borderColor='#222'; this.style.transform='none'">
-                                    <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <div style="width: 40px; height: 40px; background: #222; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary-lime, #ccff00);"><i class="fas fa-chart-line"></i></div>
-                                        <div style="text-align: left;">
-                                            <h4 style="margin: 0; font-size: 1rem;">LeadOS</h4>
-                                            <p style="margin: 0; font-size: 0.8rem; color: #666;">Scale your CRM & Sales</p>
-                                        </div>
-                                    </div>
-                                    <i class="fas fa-arrow-right" style="color: #666;"></i>
+                                <a href="https://leados.subix.in" style="background: #111; border: 1px solid #222; padding: 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: #fff; transition: all 0.3s;">
+                                    <span>LeadOS</span> <i class="fas fa-arrow-right"></i>
                                 </a>
-                                
-                                <a href="https://hrms.subix.in" style="background: #111; border: 1px solid #222; padding: 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: #fff; transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary-lime, #ccff00)'; this.style.transform='translateX(5px)'" onmouseout="this.style.borderColor='#222'; this.style.transform='none'">
-                                    <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <div style="width: 40px; height: 40px; background: #222; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary-lime, #ccff00);"><i class="fas fa-users"></i></div>
-                                        <div style="text-align: left;">
-                                            <h4 style="margin: 0; font-size: 1rem;">HRMS</h4>
-                                            <p style="margin: 0; font-size: 0.8rem; color: #666;">Goated Team Management</p>
-                                        </div>
-                                    </div>
-                                    <i class="fas fa-arrow-right" style="color: #666;"></i>
+                                <a href="https://hrms.subix.in" style="background: #111; border: 1px solid #222; padding: 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: #fff; transition: all 0.3s;">
+                                    <span>HRMS</span> <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
-
-                            <button id="close-modal-btn" style="background: var(--primary-lime, #ccff00); color: #000; border: none; padding: 1rem 2rem; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                            <button id="close-modal-btn" style="background: #ccff00; color: #000; border: none; padding: 1rem 2rem; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%;">
                                 Let's Cook
                             </button>
                         </div>
                     </div>
                 `;
-
             document.body.insertAdjacentHTML('beforeend', modalHtml);
             const modal = document.getElementById('subix-genz-modal');
             const closeBtn = document.getElementById('close-modal-btn');
-
-            // Animate In
             setTimeout(() => {
                 modal.style.opacity = '1';
                 modal.querySelector('div').style.transform = 'translateY(0)';
             }, 100);
-
-            // Close functionality
             closeBtn.addEventListener('click', () => {
                 modal.style.opacity = '0';
                 modal.querySelector('div').style.transform = 'translateY(20px)';
                 setTimeout(() => modal.remove(), 400);
             });
         }
-
-    } catch (e) {
-        console.error("Failed to parse session", e);
     }
-}
+})();

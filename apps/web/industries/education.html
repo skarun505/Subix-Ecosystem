@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Education & Coaching Solutions — Subix | Admission CRM + Faculty HRMS</title>
+<meta name="description" content="Subix helps coaching institutes and schools manage student admissions with LeadOS CRM and faculty payroll with HRMS. Fill every seat. Free for 6 months.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lime:       #ccff00;
+  --lime-hover: #b3e600;
+  --purple:     #9d4edd;
+  --pink:       #ff007f;
+  --cyan:       #00f3ff;
+  --bg:         #050505;
+  --surface:    #111111;
+  --surface-hi: #1a1a1a;
+  --border:     #333333;
+  --white:      #ffffff;
+  --muted:      #888888;
+  --font-head:  'Space Grotesk', sans-serif;
+  --font-body:  'Inter', sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,h2,h3,h4,h5 {
+  font-family: var(--font-head);
+  line-height: 1.15;
+}
+
+/* ─── NAV ─────────────────────────────────── */
+
+
+.nav-logo span { color: var(--lime); }
+
+.nav-pill a {
+  color: var(--muted); text-decoration: none;
+  font-size: 13px; font-weight: 500;
+  padding: 6px 16px; border-radius: 100px;
+  transition: all 0.2s;
+}
+.nav-pill a:hover { color: var(--white); background: var(--surface-hi); }
+
+.
+
+/* ─── BREADCRUMB ──────────────────────────── */
+
+.breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--lime); }
+.breadcrumb-sep { color: var(--border); }
+.breadcrumb-current { color: var(--lime); font-weight: 600; }
+
+/* ─── HERO ────────────────────────────────── */
+.hero {
+  min-height: 92vh;
+  display: flex; align-items: center;
+  padding: 80px 40px 60px;
+  position: relative; overflow: hidden;
+}
+.hero-bg-glow {
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(204,255,0,0.08) 0%, transparent 70%);
+  top: -200px; right: -100px;
+  pointer-events: none;
+}
+.hero-bg-glow-2 {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(157,78,221,0.07) 0%, transparent 70%);
+  bottom: -100px; left: -100px;
+  pointer-events: none;
+}
+/* subtle grid */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1080px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+  position: relative; z-index: 1;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(204,255,0,0.08);
+  border: 1px solid rgba(204,255,0,0.25);
+  border-radius: 100px;
+  padding: 6px 16px; margin-bottom: 28px;
+  font-size: 12px; font-weight: 600;
+  color: var(--lime); letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.hero-tag-dot {
+  width: 6px; height: 6px;
+  background: var(--lime); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.hero h1 {
+  font-size: clamp(36px, 4.5vw, 58px);
+  font-weight: 800; color: var(--white);
+  letter-spacing: -1px; margin-bottom: 24px;
+}
+.hero h1 .accent { color: var(--lime); }
+.hero h1 .accent-purple { color: var(--purple); }
+.hero-desc {
+  font-size: 18px; color: var(--muted);
+  max-width: 500px; margin-bottom: 40px;
+  line-height: 1.7;
+}
+.hero-actions {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.btn-lime {
+  background: var(--lime); color: var(--bg);
+  font-family: var(--font-head);
+  font-weight: 700; font-size: 15px;
+  padding: 14px 32px; border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-lime:hover { background: var(--lime-hover); transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--white);
+  font-family: var(--font-head);
+  font-weight: 600; font-size: 15px;
+  padding: 14px 32px; border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.btn-ghost:hover { border-color: var(--lime); background: rgba(204,255,0,0.05); color: var(--lime); }
+.hero-stats {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.hero-stat { }
+.hero-stat-num {
+  font-family: var(--font-head);
+  font-size: 28px; font-weight: 800; color: var(--lime);
+  letter-spacing: -1px;
+}
+.hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* Hero right — visual card stack */
+.hero-visual {
+  position: relative; height: 460px;
+}
+.hero-card {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  width: 280px;
+  backdrop-filter: blur(8px);
+}
+.hero-card-1 { top: 0; right: 0; }
+.hero-card-2 { top: 140px; right: 60px; border-color: rgba(204,255,0,0.3); }
+.hero-card-3 { top: 280px; right: 20px; }
+.card-label {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--muted); margin-bottom: 10px;
+}
+.card-value {
+  font-family: var(--font-head);
+  font-size: 26px; font-weight: 800; color: var(--white);
+}
+.card-value.lime { color: var(--lime); }
+.card-value.purple { color: var(--purple); }
+.card-bar {
+  height: 4px; background: var(--border);
+  border-radius: 4px; margin-top: 12px; overflow: hidden;
+}
+.card-bar-fill {
+  height: 100%; background: var(--lime); border-radius: 4px;
+  animation: fillbar 2s ease-in-out infinite alternate;
+}
+@keyframes fillbar { from { width: 40%; } to { width: 85%; } }
+.card-icon { font-size: 24px; margin-bottom: 8px; }
+.card-row {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-top: 8px;
+  font-size: 13px; color: var(--muted);
+}
+.card-up { color: var(--lime); font-weight: 600; font-size: 13px; }
+
+/* ─── DIVIDER ─────────────────────────────── */
+.divider-line {
+  height: 1px; background: var(--border);
+  max-width: 1080px; margin: 0 auto;
+}
+
+/* ─── SECTION BASE ────────────────────────── */
+.section { padding: 100px 40px; }
+.section-inner { max-width: 1080px; margin: 0 auto; }
+.section-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--lime); margin-bottom: 16px;
+}
+.section-tag::before {
+  content: '';
+  width: 20px; height: 2px; background: var(--lime);
+}
+.section-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800; color: var(--white);
+  letter-spacing: -0.5px; margin-bottom: 16px;
+}
+.section-title .lime { color: var(--lime); }
+.section-title .purple { color: var(--purple); }
+.section-sub {
+  font-size: 18px; color: var(--muted);
+  max-width: 580px; line-height: 1.7;
+  margin-bottom: 64px;
+}
+
+/* ─── WHAT WE DO (Services + Products) ────── */
+.offering-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  border-radius: 20px; overflow: hidden;
+  margin-bottom: 24px;
+}
+.offering-block {
+  background: var(--surface);
+  padding: 48px 40px;
+  position: relative; overflow: hidden;
+  transition: background 0.3s;
+}
+.offering-block:hover { background: var(--surface-hi); }
+.offering-type {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  padding: 4px 12px; border-radius: 100px;
+  margin-bottom: 20px;
+}
+.type-service { background: rgba(157,78,221,0.15); color: var(--purple); border: 1px solid rgba(157,78,221,0.3); }
+.type-product { background: rgba(204,255,0,0.1); color: var(--lime); border: 1px solid rgba(204,255,0,0.3); }
+.offering-icon { font-size: 36px; margin-bottom: 16px; }
+.offering-block h3 {
+  font-size: 24px; font-weight: 800;
+  color: var(--white); margin-bottom: 12px;
+}
+.offering-block p { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+.offering-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.offering-list li {
+  font-size: 14px; color: var(--muted);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.offering-list li::before {
+  content: '→';
+  color: var(--lime); font-weight: 700;
+  flex-shrink: 0; margin-top: 1px;
+}
+.service-block::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--pink));
+}
+.product-block::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 3px;
+  background: var(--lime);
+}
+
+/* ─── PAIN POINTS ─────────────────────────── */
+.pain-section { background: var(--surface); }
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px; background: var(--border);
+  border-radius: 20px; overflow: hidden;
+}
+.pain-card {
+  background: var(--bg);
+  padding: 36px 32px;
+  transition: background 0.2s;
+}
+.pain-card:hover { background: var(--surface-hi); }
+.pain-number {
+  font-family: var(--font-head);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--border); margin-bottom: 20px;
+}
+.pain-card h3 {
+  font-size: 20px; font-weight: 700;
+  color: var(--white); margin-bottom: 12px;
+}
+.pain-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.pain-impact {
+  margin-top: 20px; padding: 10px 16px;
+  background: rgba(255,0,127,0.08);
+  border: 1px solid rgba(255,0,127,0.2);
+  border-radius: 8px;
+  font-size: 13px; font-weight: 600; color: var(--pink);
+}
+
+/* ─── HOW WE WORK ─────────────────────────── */
+.process-section { }
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0; position: relative;
+}
+.process-grid::before {
+  content: '';
+  position: absolute;
+  top: 32px; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, var(--border), var(--lime), var(--border));
+}
+.process-step { padding: 0 20px; text-align: center; position: relative; z-index: 1; }
+.process-num {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head);
+  font-size: 20px; font-weight: 800; color: var(--lime);
+  margin: 0 auto 24px;
+  transition: border-color 0.3s, background 0.3s;
+  position: relative;
+}
+.process-step:hover .process-num {
+  border-color: var(--lime);
+  background: rgba(204,255,0,0.08);
+}
+.process-step h3 {
+  font-size: 17px; font-weight: 700;
+  color: var(--white); margin-bottom: 10px;
+}
+.process-step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.process-tag {
+  display: inline-block; margin-top: 14px;
+  font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 100px;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.tag-service { background: rgba(157,78,221,0.15); color: var(--purple); }
+.tag-product { background: rgba(204,255,0,0.1); color: var(--lime); }
+
+/* ─── RESULTS ─────────────────────────────── */
+.results-section { background: var(--surface); }
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px; align-items: center;
+}
+.results-numbers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px; background: var(--border);
+  border-radius: 16px; overflow: hidden;
+}
+.result-item {
+  background: var(--bg);
+  padding: 32px 28px;
+}
+.result-num {
+  font-family: var(--font-head);
+  font-size: 42px; font-weight: 800;
+  color: var(--lime); letter-spacing: -2px;
+  line-height: 1;
+}
+.result-label { font-size: 14px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+.results-text h3 {
+  font-size: 32px; font-weight: 800;
+  color: var(--white); margin-bottom: 20px;
+}
+.results-text p { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.checklist li {
+  font-size: 15px; color: var(--muted);
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.check-icon {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(204,255,0,0.15);
+  border: 1px solid rgba(204,255,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0; margin-top: 2px;
+  color: var(--lime);
+}
+
+/* ─── OFFER BANNER ────────────────────────── */
+.offer-section {
+  background: linear-gradient(135deg, var(--surface) 0%, #0d0d1a 100%);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 40px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.offer-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at center, rgba(204,255,0,0.04) 0%, transparent 70%);
+}
+.offer-inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+.offer-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(204,255,0,0.1);
+  border: 1px solid rgba(204,255,0,0.3);
+  border-radius: 100px; padding: 8px 20px;
+  font-size: 13px; font-weight: 700; color: var(--lime);
+  letter-spacing: 0.5px; margin-bottom: 24px;
+}
+.offer-section h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800; color: var(--white);
+  margin-bottom: 16px; letter-spacing: -0.5px;
+}
+.offer-section p { font-size: 18px; color: var(--muted); margin-bottom: 40px; }
+.offer-pills {
+  display: flex; gap: 12px;
+  justify-content: center; flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.offer-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--white); padding: 8px 20px;
+  border-radius: 100px; font-size: 14px; font-weight: 500;
+}
+.offer-pill .check { color: var(--lime); font-weight: 700; }
+
+/* ─── FAQ ─────────────────────────────────── */
+.faq-section { }
+.faq-wrap { max-width: 760px; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-q {
+  padding: 24px 0;
+  font-family: var(--font-head);
+  font-size: 17px; font-weight: 600; color: var(--white);
+  cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; gap: 20px;
+  transition: color 0.2s; user-select: none;
+}
+.faq-q:hover { color: var(--lime); }
+.faq-q:hover .faq-icon { border-color: var(--lime); color: var(--lime); }
+.faq-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--muted); flex-shrink: 0;
+  transition: all 0.2s;
+}
+.faq-item.open .faq-icon { background: rgba(204,255,0,0.1); border-color: var(--lime); color: var(--lime); }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.3s;
+  font-size: 15px; color: var(--muted); line-height: 1.7;
+}
+.faq-item.open .faq-a { max-height: 300px; padding-bottom: 24px; }
+
+/* ─── FINAL CTA ───────────────────────────── */
+.final-section {
+  padding: 120px 40px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.final-section::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(157,78,221,0.06) 0%, transparent 70%);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+}
+.final-inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+.final-section h2 {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800; color: var(--white);
+  letter-spacing: -1px; margin-bottom: 20px;
+}
+.final-section h2 .lime { color: var(--lime); }
+.final-section p { font-size: 18px; color: var(--muted); margin-bottom: 48px; }
+.final-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-outline-lime {
+  background: transparent;
+  border: 1px solid rgba(204,255,0,0.4);
+  color: var(--lime);
+  font-family: var(--font-head);
+  font-weight: 600; font-size: 15px;
+  padding: 14px 32px; border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-outline-lime:hover { background: rgba(204,255,0,0.08); border-color: var(--lime); }
+
+/* ─── FOOTER ──────────────────────────────── */
+
+
+
+
+.footer-logo span { color: var(--lime); }
+.footer-brand p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 280px; }
+.footer-col h5 {
+  font-family: var(--font-head);
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--white); margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul li a {
+  font-size: 14px; color: var(--muted);
+  text-decoration: none; transition: color 0.2s;
+}
+.footer-col ul li a:hover { color: var(--lime); }
+
+.footer-expertise-link .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--border); flex-shrink: 0;
+  transition: background 0.2s;
+}
+.footer-col ul li:hover .dot { background: var(--lime); }
+
+.footer-bottom a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-bottom a:hover { color: var(--lime); }
+
+/* ─── RESPONSIVE ──────────────────────────── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .offering-grid { grid-template-columns: 1fr; }
+  .pain-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .process-grid::before { display: none; }
+  .results-grid { grid-template-columns: 1fr; }
+  
+  
+  
+  .section { padding: 64px 20px; }
+  .hero { padding: 80px 20px 60px; }
+}
+@media (max-width: 600px) {
+  
+  .process-grid { grid-template-columns: 1fr; }
+  .results-numbers { grid-template-columns: 1fr 1fr; }
+  
+}
+</style>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" type="image/png" href="/Subix PNG.png">
+
+    <!-- Open Graph / Meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://subix.in/industries/education">
+    <meta property="og:title" content="Education & Coaching Solutions — Subix | Admission CRM + Faculty HRMS">
+    <meta property="og:description" content="Subix helps coaching institutes and schools manage student admissions with LeadOS CRM and faculty payroll with HRMS. Fill every seat. Free for 6 months.">
+    <meta property="og:image" content="https://subix.in/assets/social-preview.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://subix.in/industries/education">
+    <meta property="twitter:title" content="Education & Coaching Solutions — Subix | Admission CRM + Faculty HRMS">
+    <meta property="twitter:description" content="Subix helps coaching institutes and schools manage student admissions with LeadOS CRM and faculty payroll with HRMS. Fill every seat. Free for 6 months.">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "url": "https://subix.in/industries/education",
+      "name": "Education & Coaching Solutions — Subix | Admission CRM + Faculty HRMS",
+      "description": "Subix helps coaching institutes and schools manage student admissions with LeadOS CRM and faculty payroll with HRMS. Fill every seat. Free for 6 months.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Subix",
+        "url": "https://subix.in",
+        "logo": "https://subix.in/Subix%20PNG.png",
+        "contactPoint": {
+           "@type": "ContactPoint",
+           "contactType": "customer service",
+           "email": "contact@subix.in"
+        }
+      }
+    }
+    </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+        <a href="/" class="logo">
+            <img src="/Subix PNG.png" alt="Subix Logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="/products">Products</a></li>
+            <li><a href="/services">The Stack</a></li>
+            <li><a href="/platform">LeadOS</a></li>
+            <li><a href="/about">Manifesto</a></li>
+            <li><a href="/contact">Connect Us</a></li>
+        </ul>
+        <div class="nav-cta-slot">
+            <a href="/login" class="cta-btn">Sign In</a>
+        </div>
+        <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+    <div class="nav-links mobile-menu" id="mobileMenu"></div><!-- BREADCRUMB -->
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow-2"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="hero-tag-dot"></span>
+        Education & Coaching · Services & Software
+      </div>
+      <h1>Fill Every Seat This <span class="accent">Admission Season.</span><br>Without the <span class="accent-purple">Chaos.</span></h1>
+      <p class="hero-desc">We build your institute's digital presence, run admission campaigns, and give you LeadOS to manage every student inquiry — plus HRMS to handle your faculty payroll automatically.</p>
+      <div class="hero-actions">
+        <a href="https://accounts.subix.in/signup" class="btn-lime">Get Started Free →</a>
+        <a href="mailto:hello@subix.in?subject=Real Estate Demo" class="btn-ghost"><i class="fas fa-phone-alt"></i> Book a Demo</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">6mo</div>
+          <div class="hero-stat-label">Free software access  </div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">2wk</div>
+          <div class="hero-stat-label">Website delivered</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">3×</div>
+          <div class="hero-stat-label">More callbacks reported</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card hero-card-1">
+        <div class="card-label">Admission Inquiries This Week</div>
+        <div class="card-value lime">86 New Leads</div>
+        <div class="card-bar"><div class="card-bar-fill"></div></div>
+        <div class="card-row"><span>↑ Admission season</span><span class="card-up">+34</span></div>
+      </div>
+      <div class="hero-card hero-card-2">
+        <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="card-label">Counsellor Follow-Ups Due</div>
+        <div class="card-value">22 Today</div>
+        <div class="card-row"><span>8 demos scheduled</span><span class="card-up">On track</span></div>
+      </div>
+      <div class="hero-card hero-card-3">
+        <div class="card-label">Admissions Confirmed</div>
+        <div class="card-value purple">41 This Month</div>
+        <div class="card-row"><span>vs 27 last month</span><span class="card-up">↑ +52%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE DO FOR REAL ESTATE -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-tag">What We Offer</p>
+    <h2 class="section-title">Services <span class="lime">+</span> Software.<br>Not One or the Other.</h2>
+    <p class="section-sub">Most vendors give you either a tool or a service. Subix gives you both — because software alone doesn't close deals.</p>
+    <div class="offering-grid">
+      <div class="offering-block service-block">
+        <span class="offering-type type-service">Our Services</span>
+        <div class="offering-icon"><i class="fas fa-cogs"></i></div>
+        <h3>We Drive Admissions to Your Institute</h3>
+        <p>Our team builds your digital presence and runs targeted campaigns that reach students and parents actively searching for your courses.</p>
+        <ul class="offering-list">
+          <li>Institute website — SEO-optimised, course pages, fee structure, testimonials  </li>
+          <li>Google Ads targeting students searching for your course type  </li>
+          <li>Meta campaigns targeting parents of students in Class 10/12  </li>
+          <li>YouTube pre-roll ads for coaching centres  </li>
+          <li>Google My Business setup and local ranking  </li>
+          <li>Monthly admission campaign performance report</li>
+        </ul>
+      </div>
+      <div class="offering-block product-block">
+        <span class="offering-type type-product">Our Software</span>
+        <div class="offering-icon"><i class="fas fa-laptop-code"></i></div>
+        <h3>Tools That Handle Admissions and Faculty</h3>
+        <p>LeadOS manages every student inquiry from first contact to seat confirmation. HRMS handles your entire teaching and admin staff.</p>
+        <ul class="offering-list">
+          <li>LeadOS — student inquiry pipeline, assigned to counsellors  </li>
+          <li>Follow-up reminders for every inquiry until contacted  </li>
+          <li>Admission conversion funnel — inquiry → demo → enrolled  </li>
+          <li>Batch and course tracking per student  </li>
+          <li>HRMS — faculty attendance, leave, payroll  </li>
+          <li>Automated salary processing — cut 3 days of work to 3 hours</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section class="section pain-section">
+  <div class="section-inner">
+    <p class="section-tag">The Problem</p>
+    <h2 class="section-title">Why <span class="lime">Real Estate Teams</span> Bleed Revenue</h2>
+    <p class="section-sub">These three problems cost Indian property businesses crores every year. All three are fixable.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-number">Problem 01</div>
+        <h3>Admission Season = 500 Inquiries, Zero System</h3>
+        <p>Every April and October your team is flooded with calls, WhatsApps, and website forms. Counsellors manage it all from memory and sticky notes. Half the inquiries never get a second call.</p>
+        <div class="pain-impact">Result: 40–50% of interested students enrol elsewhere</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-number">Problem 02</div>
+        <h3>Parents Follow Up 3 Times and Still Hear Nothing</h3>
+        <p>A parent inquires about your engineering coaching batch on a Saturday. Counsellor sees it Monday afternoon. By then the parent has already visited a competitor and paid the registration fee.</p>
+        <div class="pain-impact">Result: High-intent admissions lost to response delay</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-number">Problem 03</div>
+        <h3>Faculty Payroll Takes 3 Days Every Month</h3>
+        <p>Part-time faculty, visiting lecturers, admin staff, housekeeping — all calculated separately in Excel. One mistake causes 5 correction emails. Payroll runs 3–4 days late.</p>
+        <div class="pain-impact">Result: Staff dissatisfaction, compliance risk, management time wasted</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-tag">How It Works</p>
+    <h2 class="section-title">From Day 1 to <span class="lime">Deals Closing</span></h2>
+    <p class="section-sub">A clear 4-step process. Services running. Software live. Team onboarded. All in under 2 weeks.</p>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-num">1</div>
+        <h3>Admission Audit</h3>
+        <p>We understand your courses, target students, current inquiry sources, and counsellor process. 30 minutes.</p>
+        <span class="process-tag tag-service">Service</span>
+      </div>
+      <div class="process-step">
+        <div class="process-num">2</div>
+        <h3>Website + Campaign Setup</h3>
+        <p>Your institute website goes live. Google and Meta ads target students actively searching for your courses and city.</p>
+        <span class="process-tag tag-service">Service</span>
+      </div>
+      <div class="process-step">
+        <div class="process-num">3</div>
+        <h3>LeadOS + HRMS Live</h3>
+        <p>Every student inquiry flows into LeadOS. Counsellors manage their pipeline. Faculty payroll moved to HRMS.</p>
+        <span class="process-tag tag-product">Software</span>
+      </div>
+      <div class="process-step">
+        <div class="process-num">4</div>
+        <h3>Fill Seats, Pay Faculty</h3>
+        <p>You see real-time admission pipeline, conversion rates, and faculty attendance — all in one dashboard.</p>
+        <span class="process-tag tag-service">Ongoing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section results-section">
+  <div class="section-inner">
+    <div class="results-grid">
+      <div class="results-numbers">
+        <div class="result-item">
+          <div class="result-num">6mo</div>
+          <div class="result-label">Full software free — no credit card</div>
+        </div>
+        <div class="result-item">
+          <div class="result-num">2wk</div>
+          <div class="result-label">Average time from signup to website live</div>
+        </div>
+        <div class="result-item">
+          <div class="result-num">60%</div>
+          <div class="result-label">Avg leads that go uncontacted without a CRM</div>
+        </div>
+        <div class="result-item">
+          <div class="result-num">6mo</div>
+          <div class="result-label">Software completely free — no credit card</div>
+        </div>
+      </div>
+      <div class="results-text">
+        <h3>What Institutes Get With Subix</h3>
+        <p>A website that ranks on Google when students search for your courses. Campaigns that fill your pipeline. LeadOS so every inquiry gets followed up. HRMS so payroll runs itself.</p>
+        <ul class="checklist">
+          <li><span class="check-icon"><i class="fas fa-check"></i></span>Institute website built and live in 2 weeks  </li>
+          <li><span class="check-icon"><i class="fas fa-check"></i></span>Google + Meta ads targeting students searching for your courses  </li>
+          <li><span class="check-icon"><i class="fas fa-check"></i></span>LeadOS — every admission inquiry tracked and followed up  </li>
+          <li><span class="check-icon"><i class="fas fa-check"></i></span>HRMS — faculty attendance, leave, payroll automated  </li>
+          <li><span class="check-icon"><i class="fas fa-check"></i></span>Batch-wise admission tracking across all courses  </li>
+          <li><span class="check-icon"><i class="fas fa-check"></i></span>Support from a team that understands Indian education</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER BANNER -->
+<div class="offer-section">
+  <div class="offer-inner">
+    <div class="offer-badge"><i class="fas fa-gift"></i> Limited Early Access Offer</div>
+    <h2>Free Software for 6 Months. Free Website Demo.</h2>
+    <p>Sign up today and get LeadOS + HRMS free for 180 days. We'll also show you a free demo of your new institute website before you commit.</p>
+    <div class="offer-pills">
+      <span class="offer-pill"><span class="check"><i class="fas fa-check"></i></span> Full LeadOS access</span>
+      <span class="offer-pill"><span class="check"><i class="fas fa-check"></i></span> Full HRMS access</span>
+      <span class="offer-pill"><span class="check"><i class="fas fa-check"></i></span> Free website demo</span>
+      <span class="offer-pill"><span class="check"><i class="fas fa-check"></i></span> No credit card</span>
+    </div>
+    <a href="https://accounts.subix.in/signup" class="btn-lime" style="font-size:16px;padding:16px 40px;">Start Free — 6 Months →</a>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section faq-section">
+  <div class="section-inner">
+    <p class="section-tag">FAQ</p>
+    <h2 class="section-title" style="margin-bottom:48px">Common Questions</h2>
+    <div class="faq-wrap">
+      <div class="faq-item">
+        <div class="faq-q">Do you handle both the digital marketing services AND the software?<div class="faq-icon">+</div></div>
+        <div class="faq-a">Yes. Subix is a service + product company. Our team manages your website, ad campaigns, and SEO. Our software (LeadOS + HRMS) runs your team's day-to-day operations. You get both under one relationship — not two vendors.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can LeadOS track inquiries across multiple branches or centres?<div class="faq-icon">+</div></div>
+        <div class="faq-a">Yes. You can set up multiple locations in LeadOS, assign counsellors branch-wise, and get a combined view across all centres from one admin login.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I track which batch or course each student enquired about?<div class="faq-icon">+</div></div>
+        <div class="faq-a">Yes. You can add custom fields in LeadOS like course, batch, and class level. Filter and sort inquiries by any of these fields at any time.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does HRMS handle part-time and visiting faculty separately?<div class="faq-icon">+</div></div>
+        <div class="faq-a">Yes. HRMS supports different employment types — full-time, part-time, contractual, visiting. Each type can have its own salary structure and attendance rules.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens to my data after the 6-month free period?<div class="faq-icon">+</div></div>
+        <div class="faq-a">Your data is always yours. We'll contact you 2 weeks before the period ends with pricing options. We'll never lock your account or delete data without clear notice and your agreement.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-section">
+  <div class="final-inner">
+    <h2>Ready to Fill Every Seat This Admission Season?</h2>
+    <p>Start with free software. Add the website and campaigns when you're ready. No pressure.</p>
+    <div class="final-actions">
+      <a href="https://accounts.subix.in/signup" class="btn-lime" style="font-size:16px;padding:16px 40px;">Start Free — 6 Months →</a>
+      <a href="mailto:hello@subix.in?subject=Real Estate Enquiry" class="btn-outline-lime">Talk to Our Team</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <img src="/Subix PNG.png" alt="Subix Logo">
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Building the future of automated business.<br>
+                    © 2026 Subix Inc.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>What We Build</h4>
+                <ul>
+                    <li><a href="/_services/app-development">App Development</a></li>
+                    <li><a href="/_services/web-experiences">Web Experiences</a></li>
+                    <li><a href="/_services/growth-hype">Growth & Hype</a></li>
+                    <li><a href="/_services/pr-clout">PR & Clout</a></li>
+                    <li><a href="/_services/ai-automation">AI & Automation</a></li>
+                    <li><a href="/_services/content-engine">Content Engine</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookies">Cookie Policy</a></li>
+                    <li><a href="/refunds">Refund Policy</a></li>
+                    <li><a href="/security">Security Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Our Flex</h4>
+                <ul>
+                    <li><a href="/industries/real-estate">Real Estate</a></li>
+                    <li><a href="/industries/hospitals">Hospitals & Clinics</a></li>
+                    <li><a href="/industries/education">Education & Coaching</a></li>
+                    <li><a href="/industries/automobile">Automobile Dealers</a></li>
+                    <li><a href="/industries/insurance">Insurance & Finance</a></li>
+                    <li><a href="/industries/construction">Construction & Infra</a></li>
+                    <li><a href="/industries/retail">Retail & Franchise</a></li>
+                    <li><a href="/industries/travel">Travel & Tourism</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://twitter.com" target="_blank">Twitter / X</a></li>
+                    <li><a href="https://www.linkedin.com/company/subix/about/" target="_blank">LinkedIn</a></li>
+                    <li><a href="mailto:contact@subix.in">contact@subix.in</a></li>
+                
+                    <li><a href="/careers">Join the Squad</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) {
+        item.classList.add('open');
+        q.querySelector('.faq-icon').textContent = '−';
+      }
+      document.querySelectorAll('.faq-item:not(.open) .faq-icon').forEach(i => i.textContent = '+');
+    });
+  });
+</script>
+
+<style>
+.card-value { transition: opacity 0.3s ease; }
+</style>
+<script src="/hero-live.js"></script>
+</body>
+</html>

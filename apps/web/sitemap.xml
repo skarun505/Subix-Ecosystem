@@ -1,87 +1,377 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" ?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://subix.in/</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/products</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/services</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/platform</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/workforce</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/billing</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/finance</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/hospital</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/about</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/careers</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/contact</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/apply</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/privacy</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://subix.in/terms</loc>
-        <lastmod>2026-02-18</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
+
+  <url>
+
+    <loc>https://subix.in</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>weekly</changefreq>
+
+    <priority>1.0</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/about</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.9</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/contact</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.9</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/platform</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.9</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/products</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.9</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/services</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.9</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/industries/automobile</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/industries/construction</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/industries/education</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/industries/hospitals</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/industries/insurance</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/industries/real-estate</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/industries/retail</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/industries/travel</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/services/ai-automation</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/services/app-development</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/services/content-engine</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/services/growth-hype</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/services/pr-clout</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/services/web-experiences</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.8</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/apply</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.6</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/billing</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.6</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/careers</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.6</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/finance</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.6</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/hospital</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.6</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/workforce</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>monthly</changefreq>
+
+    <priority>0.6</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/cookies</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>yearly</changefreq>
+
+    <priority>0.5</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/privacy</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>yearly</changefreq>
+
+    <priority>0.5</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/refunds</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>yearly</changefreq>
+
+    <priority>0.5</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/security</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>yearly</changefreq>
+
+    <priority>0.5</priority>
+
+  </url>
+
+  <url>
+
+    <loc>https://subix.in/terms</loc>
+
+    <lastmod>2026-03-11</lastmod>
+
+    <changefreq>yearly</changefreq>
+
+    <priority>0.5</priority>
+
+  </url>
+
 </urlset>

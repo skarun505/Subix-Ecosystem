@@ -1464,11 +1464,13 @@ footer {
 .faq-question h4 {
     margin-bottom: 0;
     font-size: 1.1rem;
+    pointer-events: none;
 }
 
 .faq-question i {
     transition: transform 0.3s ease;
     color: var(--primary-lime);
+    pointer-events: none;
 }
 
 .faq-answer {

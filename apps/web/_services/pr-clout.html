@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR & Clout | Subix</title>
+    <meta name="description" content="Subix builds your brand authority through tier-1 media placements, executive ghostwriting, and strategic PR. Get featured where it matters.">
+    <link rel="canonical" href="https://subix.in/services/pr-clout">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://subix.in/services/pr-clout">
+    <meta property="og:title" content="PR & Clout | Subix">
+    <meta property="og:description" content="Subix builds your brand authority through tier-1 media placements, executive ghostwriting, and strategic PR. Get featured where it matters.">
+    <meta property="og:image" content="https://subix.in/assets/social-preview.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="PR & Clout | Subix">
+    <meta property="twitter:description" content="Subix builds your brand authority through tier-1 media placements, executive ghostwriting, and strategic PR. Get featured where it matters.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/Subix PNG.png">
+    
+<style>
+  :root {
+    --lime: #ccff00; --purple: #9d4edd; --pink: #ff007f;
+    --bg: #050505; --surface: #111; --surface-hi: #1a1a1a;
+    --border: #222; --white: #fff; --muted: #888;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background: var(--bg); color: var(--white); font-family: 'Inter', sans-serif; }
+  
+  .svc-hero {
+    padding: 120px 40px 80px;
+    text-align: center;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .svc-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(204,255,0,0.06) 0%, transparent 60%);
+  }
+  .svc-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.3);
+    border-radius: 100px; padding: 6px 18px;
+    font-size: 12px; font-weight: 700; color: var(--lime);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .svc-hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800; letter-spacing: -1.5px;
+    line-height: 1.05; margin-bottom: 20px;
+  }
+  .svc-hero h1 span { color: var(--lime); }
+  .svc-hero p {
+    font-size: 1.2rem; color: var(--muted);
+    max-width: 620px; margin: 0 auto 36px; line-height: 1.7;
+  }
+  .svc-cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-lime {
+    background: var(--lime); color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 15px;
+    padding: 14px 32px; border-radius: 8px;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .btn-lime:hover { opacity: 0.88; }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    border: 1px solid var(--border);
+    font-weight: 600; font-size: 15px;
+    padding: 14px 32px; border-radius: 8px;
+    text-decoration: none; transition: border-color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--lime); color: var(--lime); }
+  
+  /* Stats bar */
+  .stat-bar {
+    display: flex; justify-content: center; gap: 4px;
+    flex-wrap: wrap; margin-top: 60px;
+  }
+  .stat-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 100px; padding: 10px 24px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .stat-pill strong { color: var(--lime); font-size: 1.3rem; display: block; line-height: 1; }
+  .stat-pill span { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Sections */
+  .svc-section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+  .svc-section h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800; letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+  .svc-section h2 span { color: var(--lime); }
+  .svc-section .sub { font-size: 1.05rem; color: var(--muted); margin-bottom: 56px; max-width: 580px; line-height: 1.7; }
+  
+  /* Feature grid */
+  .feat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--border);
+    border-radius: 20px; overflow: hidden; margin-top: 48px;
+  }
+  .feat-card {
+    background: var(--surface); padding: 40px 32px;
+    transition: background 0.2s;
+  }
+  .feat-card:hover { background: var(--surface-hi); }
+  .feat-icon { font-size: 2rem; margin-bottom: 16px; }
+  .feat-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--white); margin-bottom: 10px;
+  }
+  .feat-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+  
+  /* Process timeline */
+  .process-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; position: relative; margin-top: 48px;
+  }
+  .process-row::before {
+    content: ''; position: absolute;
+    top: 32px; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, var(--border), var(--lime), var(--border));
+  }
+  .proc-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+  .proc-num {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--surface); border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem; font-weight: 800; color: var(--lime);
+    margin: 0 auto 20px; transition: border-color 0.3s;
+  }
+  .proc-step:hover .proc-num { border-color: var(--lime); background: rgba(204,255,0,0.06); }
+  .proc-step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .proc-step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  
+  /* Tech stack pills */
+  .tech-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+  .tech-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--white); padding: 8px 18px;
+    border-radius: 100px; font-size: 0.85rem; font-weight: 500;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tech-pill:hover { border-color: var(--lime); color: var(--lime); }
+
+  /* CTA banner */
+  .cta-banner {
+    margin: 0 40px 80px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px; padding: 64px 48px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(204,255,0,0.04) 0%, transparent 65%);
+  }
+  .cta-banner h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 800; margin-bottom: 16px; position: relative;
+  }
+  .cta-banner p { color: var(--muted); font-size: 1.1rem; margin-bottom: 36px; position: relative; }
+  
+  @media (max-width: 900px) {
+    .feat-grid { grid-template-columns: 1fr 1fr; }
+    .process-row { grid-template-columns: 1fr 1fr; }
+    .process-row::before { display: none; }
+    .svc-section { padding: 60px 20px; }
+  }
+  @media (max-width: 600px) {
+    .feat-grid { grid-template-columns: 1fr; }
+    .process-row { grid-template-columns: 1fr; }
+    .svc-hero { padding: 100px 20px 60px; }
+    .cta-banner { margin: 0 16px 60px; padding: 48px 24px; }
+  }
+</style>
+
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="/Subix PNG.png" alt="Subix Logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="/products">Products</a></li>
+            <li><a href="/services">The Stack</a></li>
+            <li><a href="/platform">LeadOS</a></li>
+            <li><a href="/about">Manifesto</a></li>
+            <li><a href="/contact">Connect Us</a></li>
+        </ul>
+        <div class="nav-cta-slot">
+            <a href="/login" class="cta-btn">Sign In</a>
+        </div>
+        <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+    <div class="nav-links mobile-menu" id="mobileMenu"></div>
+
+    <!-- HERO -->
+    <section class="svc-hero">
+      <div class="svc-tag"><i class="fas fa-circle" style="font-size:6px; vertical-align:middle;"></i> What We Build</div>
+      <h1>PR & <span>Clout</span></h1>
+      <p>Get featured where it matters. We build your brand authority and craft the narrative that makes your industry talk about you — not the other way around.</p>
+      <div class="svc-cta-row">
+        <a href="/contact" class="btn-lime">Start a Project →</a>
+        <a href="/services" class="btn-outline">View All Services</a>
+      </div>
+      <div class="stat-bar">
+    <div class="stat-pill">
+      <strong>Tier-1 Media</strong>
+      <span>Publications we work with</span>
+    </div>
+    <div class="stat-pill">
+      <strong>6× LinkedIn Reach</strong>
+      <span>Avg founder profile growth</span>
+    </div>
+    <div class="stat-pill">
+      <strong>30 Days</strong>
+      <span>To first press placement</span>
+    </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="svc-section">
+      <h2>The Clout Stack</h2>
+      <p class="sub">Authority is manufactured deliberately — not discovered accidentally.</p>
+      <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-newspaper"></i></div>
+        <h3>Media Placements</h3>
+        <p>We place your brand and founders in YourStory, Inc42, Economic Times, and industry-specific publications that your buyers actually read.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-pen-nib"></i></div>
+        <h3>Executive Ghostwriting</h3>
+        <p>Your POV, your voice — scaled. LinkedIn articles, Twitter threads, and op-eds that position you as the definitive authority in your niche.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-link"></i></div>
+        <h3>Strategic Partnerships</h3>
+        <p>Podcast appearances, co-marketing deals, and industry event speaking slots that put you in front of pre-warmed audiences.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-bullhorn"></i></div>
+        <h3>Brand Narrative Craft</h3>
+        <p>We define your origin story, your mission, and your contrarian takes — then syndicate them consistently across every channel.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-bolt"></i></div>
+        <h3>Crisis Communication</h3>
+        <p>If something goes sideways, we manage public response, media outreach, and narrative control before it spirals.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-trophy"></i></div>
+        <h3>Awards & Recognition</h3>
+        <p>We identify and submit applications for startup awards, industry recognitions, and listicles that drive inbound credibility.</p>
+      </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="svc-section" style="padding-top: 0;">
+      <h2>From Unknown to Unmissable — in 90 Days</h2>
+      <p class="sub">PR that builds durable authority, not one-shot press releases.</p>
+      <div class="process-row">
+      <div class="proc-step">
+        <div class="proc-num">1</div>
+        <h4>Narrative Audit</h4>
+        <p>We interview your founders and analyze your market position. Then we define the story only you can tell.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">2</div>
+        <h4>Media Mapping</h4>
+        <p>We identify the exact publications, journalists, and podcasters your target audience follows.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">3</div>
+        <h4>Outreach & Placement</h4>
+        <p>Warm outreach to editors, pitch crafting, follow-ups — we handle all of it. You just do the interviews.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">4</div>
+        <h4>Amplification</h4>
+        <p>Every placement gets distributed across LinkedIn, email lists, and dark social channels for maximum reach.</p>
+      </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="svc-section" style="padding-top: 0;">
+      <h2>Our <span>Tech Stack</span></h2>
+      <p class="sub">Tools we trust — chosen for reliability, performance, and scale. Not trend-chasing.</p>
+      <div class="tech-row"><span class="tech-pill">Muck Rack</span><span class="tech-pill">HARO / Connectively</span><span class="tech-pill">LinkedIn Creator Mode</span><span class="tech-pill">Twitter / X</span><span class="tech-pill">Notion PR Tracker</span><span class="tech-pill">YourStory</span><span class="tech-pill">Inc42</span><span class="tech-pill">AHRefs (Backlink audit)</span><span class="tech-pill">BuzzSumo</span><span class="tech-pill">Substack</span></div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <div class="cta-banner">
+      <h2>Time to Get the Recognition You Deserve</h2>
+      <p>Let's talk about your brand narrative. One 30-minute strategy call — then we'll map out your path to authority.</p>
+      <div class="svc-cta-row">
+        <a href="/contact" class="btn-lime">Book a Free Call →</a>
+        <a href="mailto:contact@subix.in" class="btn-outline">Email Us Directly</a>
+      </div>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <img src="/Subix PNG.png" alt="Subix Logo">
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Building the future of automated business.<br>
+                    © 2026 Subix Inc.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>What We Build</h4>
+                <ul>
+                    <li><a href="/_services/app-development">App Development</a></li>
+                    <li><a href="/_services/web-experiences">Web Experiences</a></li>
+                    <li><a href="/_services/growth-hype">Growth & Hype</a></li>
+                    <li><a href="/_services/pr-clout">PR & Clout</a></li>
+                    <li><a href="/_services/ai-automation">AI & Automation</a></li>
+                    <li><a href="/_services/content-engine">Content Engine</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookies">Cookie Policy</a></li>
+                    <li><a href="/refunds">Refund Policy</a></li>
+                    <li><a href="/security">Security Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Our Flex</h4>
+                <ul>
+                    <li><a href="/industries/real-estate">Real Estate</a></li>
+                    <li><a href="/industries/hospitals">Hospitals & Clinics</a></li>
+                    <li><a href="/industries/education">Education & Coaching</a></li>
+                    <li><a href="/industries/automobile">Automobile Dealers</a></li>
+                    <li><a href="/industries/insurance">Insurance & Finance</a></li>
+                    <li><a href="/industries/construction">Construction & Infra</a></li>
+                    <li><a href="/industries/retail">Retail & Franchise</a></li>
+                    <li><a href="/industries/travel">Travel & Tourism</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://twitter.com" target="_blank">Twitter / X</a></li>
+                    <li><a href="https://www.linkedin.com/company/subix/about/" target="_blank">LinkedIn</a></li>
+                    <li><a href="mailto:contact@subix.in">contact@subix.in</a></li>
+                
+                    <li><a href="/careers">Join the Squad</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>

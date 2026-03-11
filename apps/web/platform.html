@@ -47,9 +47,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="Subix PNG.png">
+    <link rel="icon" type="image/png" href="/Subix PNG.png">
 </head>
 
 <body>
@@ -57,19 +57,17 @@
     <!-- Nav -->
     <nav class="navbar">
         <a href="/" class="logo">
-            <img src="Subix PNG.png" alt="Subix Logo">
+            <img src="/Subix PNG.png" alt="Subix Logo">
         </a>
-        
         <ul class="nav-links">
-            <li><a href="products">Products</a></li>
-            <li><a href="services">The Stack</a></li>
-            <li><a href="platform" class="active">LeadOS</a></li>
-            <li><a href="about">Manifesto</a></li>
-            <li><a href="careers">Join Us</a></li>
+            <li><a href="/products">Products</a></li>
+            <li><a href="/services">The Stack</a></li>
+            <li><a href="/platform">LeadOS</a></li>
+            <li><a href="/about">Manifesto</a></li>
+            <li><a href="/contact">Connect Us</a></li>
         </ul>
-        <!-- Right slot: Sign In CTA (replaced by profile widget when logged in) -->
         <div class="nav-cta-slot">
-            <a href="login" class="cta-btn">Sign In</a>
+            <a href="/login" class="cta-btn">Sign In</a>
         </div>
         <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
     </nav>
@@ -78,7 +76,7 @@
     <!-- Hero -->
     <header class="hero" style="min-height: 80vh; padding-bottom: 2rem; padding-top: 10rem;">
         <div class="container" style="text-align: center;">
-            <div class="hero-tag"><span>●</span> LEAD-TO-REVENUE OS</div>
+            <div class="hero-tag"><span><i class="fas fa-circle" style="font-size:6px; vertical-align:middle;"></i></span> LEAD-TO-REVENUE OS</div>
             <h1>Subix <span class="highlight">LeadOS</span></h1>
             <h2 style="font-size: 2rem; margin-bottom: 1.5rem; opacity: 0.9;">The Ultimate Lead-to-Revenue Operating
                 System.</h2>
@@ -307,6 +305,61 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section class="faq" style="padding: 6rem 0; background: #080808; border-top: 1px solid #111;">
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Frequently Asked <span
+                    class="highlight">Questions</span></h2>
+
+            <div class="faq-list reveal">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>How does LeadOS differ from standard CRM solutions?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Unlike traditional CRMs that are cluttered and slow, LeadOS offers a streamlined, dark-themed
+                            experience optimized specifically for high-velocity sales workflows. Features like 1-click
+                            communications and intelligent lead scoring are built-in natively.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Is LeadOS suitable for small teams?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely. Whether you're a team of one or an enterprise managing thousands of inquiries,
+                            LeadOS scales with you automatically without compromising performance.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Can I integrate LeadOS with my existing marketing tools?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes. LeadOS comes with out-of-the-box integration capabilities for Meta Ads, HubSpot,
+                            Salesforce, Zapier, and WhatsApp API, ensuring your workflow remains seamless.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>How quickly can we deploy LeadOS?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our cloud-native infrastructure allows for instant deployment. You can get started right away
+                            and import your leads quickly using our CSV import features.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Demo CTA / "Steal the System" -->
     <section class="cta-demo"
         style="padding: 6rem 0; background: var(--surface-color); border-top: 1px solid var(--primary-lime);">
@@ -316,7 +369,7 @@
                 Stop playing small. Deploy LeadOS today and watch your conversion rates explode.
             </p>
             <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <a href="contact" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">Get the Sauce
+                <a href="/contact" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">Get the Sauce
                     &rarr;</a>
                 <a href="#demo" class="btn-secondary"
                     style="padding: 1rem 3rem; font-size: 1.2rem; border-color: #444;">Watch Demo</a>
@@ -325,7 +378,7 @@
                 style="margin-top: 2rem; font-size: 0.9rem; color: #666; text-align: center; width: 100%; display: block; max-width: 100%;">
                 * No credit card. Just pure ROI.</p>
             <p style="margin-top: 2rem; font-size: 0.8rem; color: #444; text-align: center;">
-                Subject to our <a href="terms" style="text-decoration: underline;">Terms</a> & <a href="privacy"
+                Subject to our <a href="/terms" style="text-decoration: underline;">Terms</a> & <a href="/privacy"
                     style="text-decoration: underline;">Privacy Policy</a>.
             </p>
         </div>
@@ -336,7 +389,7 @@
         <div class="container footer-content">
             <div class="footer-brand">
                 <a href="/" class="logo">
-                    <img src="Subix PNG.png" alt="Subix Logo">
+                    <img src="/Subix PNG.png" alt="Subix Logo">
                 </a>
                 <p style="margin-top: 1rem; font-size: 0.9rem;">
                     Building the future of automated business.<br>
@@ -344,19 +397,37 @@
                 </p>
             </div>
             <div class="footer-links">
-                <h4>Platform</h4>
+                <h4>What We Build</h4>
                 <ul>
-                    <li><a href="products">Products</a></li>
-                    <li><a href="services">Services</a></li>
-                    <li><a href="platform">LeadOS</a></li>
-                    <li><a href="about">Why Us</a></li>
+                    <li><a href="/_services/app-development">App Development</a></li>
+                    <li><a href="/_services/web-experiences">Web Experiences</a></li>
+                    <li><a href="/_services/growth-hype">Growth & Hype</a></li>
+                    <li><a href="/_services/pr-clout">PR & Clout</a></li>
+                    <li><a href="/_services/ai-automation">AI & Automation</a></li>
+                    <li><a href="/_services/content-engine">Content Engine</a></li>
                 </ul>
             </div>
             <div class="footer-links">
                 <h4>Legal</h4>
                 <ul>
-                    <li><a href="privacy">Privacy Policy</a></li>
-                    <li><a href="terms">Terms of Service</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookies">Cookie Policy</a></li>
+                    <li><a href="/refunds">Refund Policy</a></li>
+                    <li><a href="/security">Security Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Our Flex</h4>
+                <ul>
+                    <li><a href="/industries/real-estate">Real Estate</a></li>
+                    <li><a href="/industries/hospitals">Hospitals & Clinics</a></li>
+                    <li><a href="/industries/education">Education & Coaching</a></li>
+                    <li><a href="/industries/automobile">Automobile Dealers</a></li>
+                    <li><a href="/industries/insurance">Insurance & Finance</a></li>
+                    <li><a href="/industries/construction">Construction & Infra</a></li>
+                    <li><a href="/industries/retail">Retail & Franchise</a></li>
+                    <li><a href="/industries/travel">Travel & Tourism</a></li>
                 </ul>
             </div>
             <div class="footer-links">
@@ -365,12 +436,14 @@
                     <li><a href="https://twitter.com" target="_blank">Twitter / X</a></li>
                     <li><a href="https://www.linkedin.com/company/subix/about/" target="_blank">LinkedIn</a></li>
                     <li><a href="mailto:contact@subix.in">contact@subix.in</a></li>
+                
+                    <li><a href="/careers">Join the Squad</a></li>
                 </ul>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

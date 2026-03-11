@@ -29,9 +29,42 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="Subix PNG.png">
+    <link rel="icon" type="image/png" href="/Subix PNG.png">
+
+    <!-- Open Graph / Meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://subix.in/apply">
+    <meta property="og:title" content="Apply Now - Subix Careers">
+    <meta property="og:description" content="Apply to join the Subix team. Growth Engineers, Automation Specialists, and more.">
+    <meta property="og:image" content="https://subix.in/assets/social-preview.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://subix.in/apply">
+    <meta property="twitter:title" content="Apply Now - Subix Careers">
+    <meta property="twitter:description" content="Apply to join the Subix team. Growth Engineers, Automation Specialists, and more.">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "url": "https://subix.in/apply",
+      "name": "Apply Now - Subix Careers",
+      "description": "Apply to join the Subix team. Growth Engineers, Automation Specialists, and more.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Subix",
+        "url": "https://subix.in",
+        "logo": "https://subix.in/Subix%20PNG.png",
+        "contactPoint": {
+           "@type": "ContactPoint",
+           "contactType": "customer service",
+           "email": "contact@subix.in"
+        }
+      }
+    }
+    </script>
 </head>
 
 <body>
@@ -39,19 +72,17 @@
     <!-- Nav -->
     <nav class="navbar">
         <a href="/" class="logo">
-            <img src="Subix PNG.png" alt="Subix Logo">
+            <img src="/Subix PNG.png" alt="Subix Logo">
         </a>
-        
         <ul class="nav-links">
-            <li><a href="products">Products</a></li>
-            <li><a href="services">The Stack</a></li>
-            <li><a href="platform">LeadOS</a></li>
-            <li><a href="about">Manifesto</a></li>
-            <li><a href="careers">Join Us</a></li>
+            <li><a href="/products">Products</a></li>
+            <li><a href="/services">The Stack</a></li>
+            <li><a href="/platform">LeadOS</a></li>
+            <li><a href="/about">Manifesto</a></li>
+            <li><a href="/contact">Connect Us</a></li>
         </ul>
-        <!-- Right slot: Sign In CTA (replaced by profile widget when logged in) -->
         <div class="nav-cta-slot">
-            <a href="login" class="cta-btn">Sign In</a>
+            <a href="/login" class="cta-btn">Sign In</a>
         </div>
         <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
     </nav>
@@ -119,8 +150,8 @@
                     <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Submit
                         Application</button>
                     <p style="margin-top: 1.5rem; font-size: 0.8rem; color: #444; text-align: center;">
-                        Submitting an application confirms you agree to our <a href="terms"
-                            style="text-decoration: underline;">Terms</a> & <a href="privacy"
+                        Submitting an application confirms you agree to our <a href="/terms"
+                            style="text-decoration: underline;">Terms</a> & <a href="/privacy"
                             style="text-decoration: underline;">Privacy Policy</a>.
                     </p>
                 </form>
@@ -133,7 +164,7 @@
         <div class="container footer-content">
             <div class="footer-brand">
                 <a href="/" class="logo">
-                    <img src="Subix PNG.png" alt="Subix Logo">
+                    <img src="/Subix PNG.png" alt="Subix Logo">
                 </a>
                 <p style="margin-top: 1rem; font-size: 0.9rem;">
                     Building the future of automated business.<br>
@@ -141,19 +172,37 @@
                 </p>
             </div>
             <div class="footer-links">
-                <h4>Platform</h4>
+                <h4>What We Build</h4>
                 <ul>
-                    <li><a href="products">Products</a></li>
-                    <li><a href="services">Services</a></li>
-                    <li><a href="platform">LeadOS</a></li>
-                    <li><a href="about">Why Us</a></li>
+                    <li><a href="/_services/app-development">App Development</a></li>
+                    <li><a href="/_services/web-experiences">Web Experiences</a></li>
+                    <li><a href="/_services/growth-hype">Growth & Hype</a></li>
+                    <li><a href="/_services/pr-clout">PR & Clout</a></li>
+                    <li><a href="/_services/ai-automation">AI & Automation</a></li>
+                    <li><a href="/_services/content-engine">Content Engine</a></li>
                 </ul>
             </div>
             <div class="footer-links">
                 <h4>Legal</h4>
                 <ul>
-                    <li><a href="privacy">Privacy Policy</a></li>
-                    <li><a href="terms">Terms of Service</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookies">Cookie Policy</a></li>
+                    <li><a href="/refunds">Refund Policy</a></li>
+                    <li><a href="/security">Security Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Our Flex</h4>
+                <ul>
+                    <li><a href="/industries/real-estate">Real Estate</a></li>
+                    <li><a href="/industries/hospitals">Hospitals & Clinics</a></li>
+                    <li><a href="/industries/education">Education & Coaching</a></li>
+                    <li><a href="/industries/automobile">Automobile Dealers</a></li>
+                    <li><a href="/industries/insurance">Insurance & Finance</a></li>
+                    <li><a href="/industries/construction">Construction & Infra</a></li>
+                    <li><a href="/industries/retail">Retail & Franchise</a></li>
+                    <li><a href="/industries/travel">Travel & Tourism</a></li>
                 </ul>
             </div>
             <div class="footer-links">
@@ -162,12 +211,14 @@
                     <li><a href="https://twitter.com" target="_blank">Twitter / X</a></li>
                     <li><a href="https://www.linkedin.com/company/subix/about/" target="_blank">LinkedIn</a></li>
                     <li><a href="mailto:contact@subix.in">contact@subix.in</a></li>
+                
+                    <li><a href="/careers">Join the Squad</a></li>
                 </ul>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
     <script>
         document.getElementById('applicationForm').addEventListener('submit', function (e) {
             e.preventDefault();
